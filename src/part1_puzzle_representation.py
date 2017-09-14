@@ -7,12 +7,12 @@ Created on Sep 13, 2017
 # Import statements
 import random
 
-# Ask user for puzzle size
-n = input('Enter the size of the puzzle grid (5, 7, 9, 11): ')
-#n = 5
+## ----- Input Puzzle Size ----- ##
+n = input('Enter the size of the puzzle grid (5, 7, 9, 11): ')  # need to validate
 n = int(n)
+## ----- End Input Puzzle Size ----- ##
 
-## ----- Generates a 2D Valid matrix ----- ##
+## ----- Valid Matrix ----- ##
 puz = [[0 for x in range(n)] for y in range(n)]
 for x in range(0, n):
     for y in range(0, n):
@@ -22,9 +22,10 @@ for x in range(0, n):
 puz[n-1][n-1] = 0
 ## ----- End Valid Matrix ----- ##
 
-# Print the randomly generated puzzle
+## ----- Print Matrix ----- ##
 for x in range(0,n):
     for y in range(0,n):
         print(puz[x][y], end = '')
     print()
-     
+## ----- End Print Matrix ----- ##
+
