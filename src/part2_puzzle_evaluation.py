@@ -9,6 +9,17 @@ from part1_puzzle_representation import puz
 from part1_puzzle_representation import n
 ## ----- End Import Statements ----- ##
 
+## ----- Unit Test ----- ##
+'''
+puz = [[4, 4, 4, 4, 1],
+       [4, 3, 3, 3, 2],
+       [4, 3, 2, 3, 3],
+       [4, 3, 3, 3, 3],
+       [1, 2, 3, 3, 0]]
+
+n = 5
+'''
+## ----- End Unit Test ----- ##
 
 ## ----- Create Nodes ----- ##
 nodes = [[{} for x in range(n)] for y in range(n)] # Store each node as a dictionary
@@ -31,6 +42,7 @@ while len(q) != 0:
     
 #    for i in range(0, len(q)):
 #        print('(', q[i]['xcoord'], ', ', q[i]['ycoord'], ')', end = '')
+#        print(', ', q[i]['value'], '; ', end = '')
     
     w = q.pop(0) # Dequeue from q (returns node dictionary)
     has_children = False # Check for and enqueue valid children
@@ -67,22 +79,34 @@ while len(q) != 0:
 ## ----- End Breadth-First Search ----- ##
 
 
-## ----- Print Successful Path ----- ##
-goalpath = []
-goalpath.append(nodes[n-1][n-1])
-par = nodes[n-1][n-1]['parent']
+## ----- Print Successful Path ----- #
+if len(nodes[n-1][n-1]) == 4:
+    print('Successful Path: ')
 
-while par['xcoord'] != 0 and par['ycoord'] != 0:
-    goalpath.append(par)
-    xc = par['xcoord']
-    yc = par['ycoord']
-    par = nodes[xc][yc]['parent']
-
-goalpath.append(nodes[0][0])
-goalpath.reverse()
-for i in range(0, len(goalpath)):
-    print('(', goalpath[i]['xcoord'], ', ', goalpath[i]['ycoord'], ')')
-
+    goalpath = []
+    goalpath.append(nodes[n-1][n-1])
+    par = nodes[n-1][n-1]['parent']
+    
+    while par['xcoord'] != 0 or par['ycoord'] != 0:
+        goalpath.append(par)
+        xc = par['xcoord']
+        yc = par['ycoord']
+        par = nodes[xc][yc]['parent']
+    
+    goalpath.append(nodes[0][0])
+    goalpath.reverse()
+    for i in range(0, len(goalpath)):
+        print('(', goalpath[i]['xcoord'], ', ', goalpath[i]['ycoord'], ')', end = '')
+else:
+    print("No successful path!")
+    k = 0
+    for x in range(0, n):
+        for y in range(0, n):
+            print(visited[x][y], end = '')
+            if visited[x][y] == 0:
+                k = k + 1
+        print()   
+    print('k = -', k)
 ## ----- End Print Successful Path ----- ##
-
+print()
 print('code terminated')
