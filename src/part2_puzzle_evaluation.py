@@ -19,6 +19,15 @@ puz = [[4, 4, 4, 4, 1],
 
 n = 5
 '''
+'''
+puz = [[3, 2, 1, 4, 1],
+       [3, 2, 1, 3, 3],
+       [3, 3, 2, 1, 4],
+       [3, 1, 2, 3, 3],
+       [1, 4, 4, 3, 0]]
+
+n = 5
+'''
 ## ----- End Unit Test ----- ##
 
 ## ----- Create Nodes ----- ##
@@ -97,6 +106,8 @@ if len(nodes[n-1][n-1]) == 4:
     goalpath.reverse()
     for i in range(0, len(goalpath)):
         print('(', goalpath[i]['xcoord'], ', ', goalpath[i]['ycoord'], ')', end = '')
+    print()
+    print('Steps Taken: ', len(goalpath) - 1)
 else:
     print("No successful path!")
     k = 0
