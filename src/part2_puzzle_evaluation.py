@@ -7,7 +7,6 @@ Created on Sep 14, 2017
 ## ----- Import Statements ----- ##
 from part1_puzzle_representation import puz
 from part1_puzzle_representation import n
-import queue
 ## ----- End Import Statements ----- ##
 
 
@@ -22,46 +21,68 @@ for x in range(0,n):
 
 
 ## ----- Breadth-First Search ----- ##
-q = queue.Queue() # Queue
-s = [] # Stack
+q = [] # Queue
 visited = [[0 for x in range(n)] for y in range(n)] # Matrix of visited nodes
 
-q.put(nodes[0][0]) # Enqueue the start point
+q.append(nodes[0][0]) # Enqueue the start point
 visited[0][0] = 1 # Mark start point as visited
 
-
-while not q.empty():
-    w = q.get() # Dequeue from q (returns node dictionary)
-    s.append(w) # Append to stack
+while len(q) != 0:
     
+#    for i in range(0, len(q)):
+#        print('(', q[i]['xcoord'], ', ', q[i]['ycoord'], ')', end = '')
+    
+    w = q.pop(0) # Dequeue from q (returns node dictionary)
     has_children = False # Check for and enqueue valid children
-    if (w['xcoord'] + w['value'] < n-1) and (visited[w['xcoord'] + w['value']][w['ycoord']] == 0): 
-        visited[ w['xcoord'] + w['value'] ][ w['ycoord'] ] = 1 # Mark new node as visited
-        q.put(nodes[ w['xcoord'] + w['value'] ][ w['ycoord'] ]) # Add child node to queue
-        has_children = True
-    if (w['xcoord'] - w['value'] > 0) and (visited[w['xcoord'] - w['value']][w['ycoord']] == 0): 
-        visited[ w['xcoord'] - w['value'] ][ w['ycoord'] ] = 1 # Mark new node as visited
-        q.put(nodes[ w['xcoord'] - w['value'] ][ w['ycoord'] ]) # Add child node to queue
-        has_children = True
-    if (w['ycoord'] + w['value'] < n-1) and (visited[w['xcoord']][w['ycoord'] + w['value']] == 0): 
-        visited[ w['xcoord'] ][ w['ycoord'] + w['value'] ] = 1 # Mark new node as visited
-        q.put(nodes[ w['xcoord'] ][ w['ycoord'] + w['value'] ]) # Add child node to queue
-        has_children = True
-    if (w['ycoord'] - w['value'] > 0) and (visited[w['xcoord']][w['ycoord'] - w['value']] == 0): 
-        visited[ w['xcoord'] ][ w['ycoord'] - w['value'] ] = 1 # Mark new node as visited
-        q.put(nodes[ w['xcoord'] ][ w['ycoord'] - w['value'] ]) # Add child node to queue
-        has_children = True
-    if has_children == False: # Needs more conditions, this is wrong. Tree can still go in the wrong direction
-        s.pop()        
-    if w['value'] == 0:
+    
+    if w['value'] == 0: # Win condition, we found the goal
         break
+    
+    if (w['xcoord'] + w['value'] <= n-1) and (visited[w['xcoord'] + w['value']][w['ycoord']] == 0): 
+        visited[w['xcoord'] + w['value']][w['ycoord']] = 1 # Mark new node as visited
+        q.append(nodes[ w['xcoord'] + w['value']][w['ycoord']]) # Add child node to queue
+        nodes[w['xcoord'] + w['value']][w['ycoord']]['parent'] = w
+        has_children = True
+        
+    if (w['xcoord'] - w['value'] >= 0) and (visited[w['xcoord'] - w['value']][w['ycoord']] == 0): 
+        visited[ w['xcoord'] - w['value'] ][ w['ycoord'] ] = 1 # Mark new node as visited
+        q.append(nodes[w['xcoord'] - w['value']][w['ycoord']]) # Add child node to queue
+        nodes[w['xcoord'] - w['value']][w['ycoord']]['parent'] = w
+        has_children = True
+        
+    if (w['ycoord'] + w['value'] <= n-1) and (visited[w['xcoord']][w['ycoord'] + w['value']] == 0): 
+        visited[w['xcoord']][w['ycoord'] + w['value']] = 1 # Mark new node as visited
+        q.append(nodes[w['xcoord']][w['ycoord'] + w['value']]) # Add child node to queue
+        nodes[w['xcoord']][w['ycoord'] + w['value']]['parent'] = w
+        has_children = True
+        
+    if (w['ycoord'] - w['value'] >= 0) and (visited[w['xcoord']][w['ycoord'] - w['value']] == 0): 
+        visited[ w['xcoord']][w['ycoord'] - w['value']] = 1 # Mark new node as visited
+        q.append(nodes[w['xcoord']][ w['ycoord'] - w['value']]) # Add child node to queue
+        nodes[w['xcoord']][w['ycoord'] - w['value']]['parent'] = w
+        has_children = True
+
+#    print()
 
 ## ----- End Breadth-First Search ----- ##
 
 
 ## ----- Print Successful Path ----- ##
-for i in range(0, len(s)):
-    print(s[i])
+goalpath = []
+goalpath.append(nodes[n-1][n-1])
+par = nodes[n-1][n-1]['parent']
+
+while par['xcoord'] != 0 and par['ycoord'] != 0:
+    goalpath.append(par)
+    xc = par['xcoord']
+    yc = par['ycoord']
+    par = nodes[xc][yc]['parent']
+
+goalpath.append(nodes[0][0])
+goalpath.reverse()
+for i in range(0, len(goalpath)):
+    print('(', goalpath[i]['xcoord'], ', ', goalpath[i]['ycoord'], ')')
+
 ## ----- End Print Successful Path ----- ##
 
 print('code terminated')
