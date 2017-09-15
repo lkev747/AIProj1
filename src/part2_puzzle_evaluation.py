@@ -9,17 +9,10 @@ from part1_puzzle_representation import puz
 from part1_puzzle_representation import n
 ## ----- End Import Statements ----- ##
 
-## ----- Unit Test ----- ##
-'''
-puz = [[4, 4, 4, 4, 1],
-       [4, 3, 3, 3, 2],
-       [4, 3, 2, 3, 3],
-       [4, 3, 3, 3, 3],
-       [1, 2, 3, 3, 0]]
 
-n = 5
+## ----- Unit Tests ----- ##
 '''
-'''
+# 19 Moves - Initial Example
 puz = [[3, 2, 1, 4, 1],
        [3, 2, 1, 3, 3],
        [3, 3, 2, 1, 4],
@@ -28,7 +21,28 @@ puz = [[3, 2, 1, 4, 1],
 
 n = 5
 '''
-## ----- End Unit Test ----- ##
+'''
+# Pass - Value Function 5 Example
+puz = [[2, 2, 2, 4, 3],
+       [2, 2, 3, 3, 3],
+       [3, 3, 2, 3, 3],
+       [4, 3, 2, 2, 2],
+       [1, 2, 1, 4, 0],]
+
+n = 5
+'''
+'''
+# Fail - Value Function -3 Example
+puz = [[3, 3, 2, 4, 3],
+       [2, 2, 2, 1, 1],
+       [4, 3, 1, 3, 4],
+       [2, 3, 1, 1, 3],
+       [1, 1, 3, 2, 0]]
+
+n = 5
+'''
+## ----- End Unit Tests ----- ##
+
 
 ## ----- Create Nodes ----- ##
 nodes = [[{} for x in range(n)] for y in range(n)] # Store each node as a dictionary
@@ -56,8 +70,6 @@ while len(q) != 0:
     w = q.pop(0) # Dequeue from q (returns node dictionary)
     has_children = False # Check for and enqueue valid children
     
-    if w['value'] == 0: # Win condition, we found the goal
-        break
     
     if (w['xcoord'] + w['value'] <= n-1) and (visited[w['xcoord'] + w['value']][w['ycoord']] == 0): 
         visited[w['xcoord'] + w['value']][w['ycoord']] = 1 # Mark new node as visited
@@ -82,9 +94,7 @@ while len(q) != 0:
         q.append(nodes[w['xcoord']][ w['ycoord'] - w['value']]) # Add child node to queue
         nodes[w['xcoord']][w['ycoord'] - w['value']]['parent'] = w
         has_children = True
-
 #    print()
-
 ## ----- End Breadth-First Search ----- ##
 
 
@@ -107,7 +117,7 @@ if len(nodes[n-1][n-1]) == 4:
     for i in range(0, len(goalpath)):
         print('(', goalpath[i]['xcoord'], ', ', goalpath[i]['ycoord'], ')', end = '')
     print()
-    print('Steps Taken: ', len(goalpath) - 1)
+    print('Value Function: ', len(goalpath) - 1)
 else:
     print("No successful path!")
     k = 0
@@ -117,7 +127,9 @@ else:
             if visited[x][y] == 0:
                 k = k + 1
         print()   
-    print('k = -', k)
+    print('Value Function: -', k)
 ## ----- End Print Successful Path ----- ##
+
+
 print()
 print('code terminated')
