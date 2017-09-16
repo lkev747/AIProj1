@@ -56,52 +56,50 @@ for x in range(0,n):
 
 
 ## ----- Breadth-First Search ----- ##
-q = [] # Queue
-visited = [[0 for x in range(n)] for y in range(n)] # Matrix of visited nodes
-
-q.append(nodes[0][0]) # Enqueue the start point
-visited[0][0] = 1 # Mark start point as visited
-
-while len(q) != 0:
+def BFS(nodes, n):
+    q = [] # Queue
+    visited = [[0 for x in range(n)] for y in range(n)] # Matrix of visited nodes
     
-#    for i in range(0, len(q)):
-#        print('(', q[i]['xcoord'], ', ', q[i]['ycoord'], ')', end = '')
-#        print(', ', q[i]['value'], '; ', end = '')
+    q.append(nodes[0][0]) # Enqueue the start point
+    visited[0][0] = 1 # Mark start point as visited
     
-    w = q.pop(0) # Dequeue from q (returns node dictionary)
-    has_children = False # Check for and enqueue valid children
-    
-    
-    if (w['xcoord'] + w['value'] <= n-1) and (visited[w['xcoord'] + w['value']][w['ycoord']] == 0): 
-        visited[w['xcoord'] + w['value']][w['ycoord']] = w['level'] + 1 # Mark new node as visited
-        q.append(nodes[ w['xcoord'] + w['value']][w['ycoord']]) # Add child node to queue
-        nodes[w['xcoord'] + w['value']][w['ycoord']]['parent'] = w
-        nodes[w['xcoord'] + w['value']][w['ycoord']]['level'] = w['level'] + 1
-        has_children = True
+    while len(q) != 0:
         
-    if (w['xcoord'] - w['value'] >= 0) and (visited[w['xcoord'] - w['value']][w['ycoord']] == 0): 
-        visited[ w['xcoord'] - w['value'] ][ w['ycoord'] ] = w['level'] + 1 # Mark new node as visited
-        q.append(nodes[w['xcoord'] - w['value']][w['ycoord']]) # Add child node to queue
-        nodes[w['xcoord'] - w['value']][w['ycoord']]['parent'] = w
-        nodes[w['xcoord'] - w['value']][w['ycoord']]['level'] = w['level'] + 1
-        has_children = True
+    #    for i in range(0, len(q)):
+    #        print('(', q[i]['xcoord'], ', ', q[i]['ycoord'], ')', end = '')
+    #        print(', ', q[i]['value'], '; ', end = '')
         
-    if (w['ycoord'] + w['value'] <= n-1) and (visited[w['xcoord']][w['ycoord'] + w['value']] == 0): 
-        visited[w['xcoord']][w['ycoord'] + w['value']] = w['level'] + 1 # Mark new node as visited
-        q.append(nodes[w['xcoord']][w['ycoord'] + w['value']]) # Add child node to queue
-        nodes[w['xcoord']][w['ycoord'] + w['value']]['parent'] = w
-        nodes[w['xcoord']][w['ycoord'] + w['value']]['level'] = w['level'] + 1
-        has_children = True
+        w = q.pop(0) # Dequeue from q (returns node dictionary)        
         
-    if (w['ycoord'] - w['value'] >= 0) and (visited[w['xcoord']][w['ycoord'] - w['value']] == 0): 
-        visited[ w['xcoord']][w['ycoord'] - w['value']] = w['level'] + 1 # Mark new node as visited
-        q.append(nodes[w['xcoord']][ w['ycoord'] - w['value']]) # Add child node to queue
-        nodes[w['xcoord']][w['ycoord'] - w['value']]['parent'] = w
-        nodes[w['xcoord']][w['ycoord'] - w['value']]['level'] = w['level'] + 1
-        has_children = True
-#    print()
+        if (w['xcoord'] + w['value'] <= n-1) and (visited[w['xcoord'] + w['value']][w['ycoord']] == 0): 
+            visited[w['xcoord'] + w['value']][w['ycoord']] = w['level'] + 1 # Mark new node as visited
+            q.append(nodes[ w['xcoord'] + w['value']][w['ycoord']]) # Add child node to queue
+            nodes[w['xcoord'] + w['value']][w['ycoord']]['parent'] = w
+            nodes[w['xcoord'] + w['value']][w['ycoord']]['level'] = w['level'] + 1
+            
+        if (w['xcoord'] - w['value'] >= 0) and (visited[w['xcoord'] - w['value']][w['ycoord']] == 0): 
+            visited[ w['xcoord'] - w['value'] ][ w['ycoord'] ] = w['level'] + 1 # Mark new node as visited
+            q.append(nodes[w['xcoord'] - w['value']][w['ycoord']]) # Add child node to queue
+            nodes[w['xcoord'] - w['value']][w['ycoord']]['parent'] = w
+            nodes[w['xcoord'] - w['value']][w['ycoord']]['level'] = w['level'] + 1
+            
+        if (w['ycoord'] + w['value'] <= n-1) and (visited[w['xcoord']][w['ycoord'] + w['value']] == 0): 
+            visited[w['xcoord']][w['ycoord'] + w['value']] = w['level'] + 1 # Mark new node as visited
+            q.append(nodes[w['xcoord']][w['ycoord'] + w['value']]) # Add child node to queue
+            nodes[w['xcoord']][w['ycoord'] + w['value']]['parent'] = w
+            nodes[w['xcoord']][w['ycoord'] + w['value']]['level'] = w['level'] + 1
+            
+        if (w['ycoord'] - w['value'] >= 0) and (visited[w['xcoord']][w['ycoord'] - w['value']] == 0): 
+            visited[ w['xcoord']][w['ycoord'] - w['value']] = w['level'] + 1 # Mark new node as visited
+            q.append(nodes[w['xcoord']][ w['ycoord'] - w['value']]) # Add child node to queue
+            nodes[w['xcoord']][w['ycoord'] - w['value']]['parent'] = w
+            nodes[w['xcoord']][w['ycoord'] - w['value']]['level'] = w['level'] + 1
+    #    print()
+    
+    return visited
 ## ----- End Breadth-First Search ----- ##
 
+visited = BFS(nodes, n)
 
 ## ----- Print Successful Path ----- #
 if len(nodes[n-1][n-1]) == 5: #########
@@ -123,7 +121,7 @@ if len(nodes[n-1][n-1]) == 5: #########
         print('(', goalpath[i]['xcoord'], ', ', goalpath[i]['ycoord'], ')', end = '')
     print()
     print('Value Function: ', len(goalpath) - 1)
-    print()
+    print('Visited Matrix: ')
     
     visited[0][0] = 0
     for x in range(0, n):
@@ -150,6 +148,3 @@ else:
   
 ## ----- End Print Successful Path ----- ##
 
-
-print()
-print('code terminated')
