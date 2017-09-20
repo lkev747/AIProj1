@@ -45,6 +45,55 @@ n = 5
 ## ----- End Unit Tests ----- ##
 
 
+## ----- Print Successful Path ----- #
+def print_path(nodes, n, visited):
+    if len(nodes[n-1][n-1]) == 5: 
+        print('Successful Path: ')
+    
+        goalpath = []
+        goalpath.append(nodes[n-1][n-1])
+        par = nodes[n-1][n-1]['parent']
+        
+        while par['xcoord'] != 0 or par['ycoord'] != 0:
+            goalpath.append(par)
+            xc = par['xcoord']
+            yc = par['ycoord']
+            par = nodes[xc][yc]['parent']
+        
+        goalpath.append(nodes[0][0])
+        goalpath.reverse()
+        for i in range(0, len(goalpath)):
+            print('(', goalpath[i]['xcoord'], ', ', goalpath[i]['ycoord'], ')', end = '')
+        print()
+        print('Value Function: ', visited[n-1][n-1])
+        print('Visited Matrix: ')
+        
+        visited[0][0] = 0
+        for x in range(0, n):
+            for y in range(0, n):
+                if visited[x][y] == 0 and (x != 0 or y != 0):
+                    visited[x][y] = 'X'
+                print(visited[x][y], end = '')
+            print()    
+    
+        return visited, visited[n-1][n-1]
+    else:
+        print("No successful path!")
+        visited[0][0] = 0
+        k = 0
+        for x in range(0, n):
+            for y in range(0, n):
+                if visited[x][y] == 0 and (x != 0 or y != 0):
+                    visited[x][y] = 'X'
+                    k = k + 1
+                print(visited[x][y], end = '')
+            print()
+        print('Value Function: ', -1 * k)
+        print()
+        return visited, -1*k
+## ----- End Print Successful Path ----- ##
+
+
 ## ----- Breadth-First Search ----- ##
 def BFS(nodes, n):
     q = [] # Queue
@@ -80,60 +129,15 @@ def BFS(nodes, n):
             nodes[w['xcoord']][w['ycoord'] - w['value']]['parent'] = w
             nodes[w['xcoord']][w['ycoord'] - w['value']]['level'] = w['level'] + 1
 
-    return visited
+    k = print_path(nodes, n, visited)
+
+    return visited, k
 ## ----- End Breadth-First Search ----- ##
 
 
-## ----- Print Successful Path ----- #
-def print_path(nodes, n, visited):
-    if len(nodes[n-1][n-1]) == 5: 
-        print('Successful Path: ')
-    
-        goalpath = []
-        goalpath.append(nodes[n-1][n-1])
-        par = nodes[n-1][n-1]['parent']
-        
-        while par['xcoord'] != 0 or par['ycoord'] != 0:
-            goalpath.append(par)
-            xc = par['xcoord']
-            yc = par['ycoord']
-            par = nodes[xc][yc]['parent']
-        
-        goalpath.append(nodes[0][0])
-        goalpath.reverse()
-        for i in range(0, len(goalpath)):
-            print('(', goalpath[i]['xcoord'], ', ', goalpath[i]['ycoord'], ')', end = '')
-        print()
-        print('Value Function: ', visited[n-1][n-1])
-        print('Visited Matrix: ')
-        
-        visited[0][0] = 0
-        for x in range(0, n):
-            for y in range(0, n):
-                if visited[x][y] == 0 and (x != 0 or y != 0):
-                    visited[x][y] = 'X'
-                print(visited[x][y], end = '')
-            print()    
-    
-        return visited[n-1][n-1]
-    else:
-        print("No successful path!")
-        visited[0][0] = 0
-        k = 0
-        for x in range(0, n):
-            for y in range(0, n):
-                if visited[x][y] == 0 and (x != 0 or y != 0):
-                    visited[x][y] = 'X'
-                    k = k + 1
-                print(visited[x][y], end = '')
-            print()
-        print('Value Function: ', -1 * k)
-        print()
-    
-## ----- End Print Successful Path ----- ##
-
+## ----- Unit Test ----- ##
 nodes, n = generate_puzzle()
 print_matrix(nodes,n)
-visited = BFS(nodes, n)
-print_path(nodes, n, visited)
+visited, k = BFS(nodes, n)
+## ----- End Unit Test ----- ##
 
