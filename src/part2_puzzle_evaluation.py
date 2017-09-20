@@ -35,13 +35,16 @@ def print_path(nodes, n, visited):
         print('Visited Matrix: ')
         
         visited[0][0] = 0
+        temp = 0
         for x in range(0, n):
             for y in range(0, n):
                 if visited[x][y] == 0 and (x != 0 or y != 0):
+                    temp = visited[n-1][n-1]
                     visited[x][y] = 'X'
                 print(visited[x][y], end = '')
             print()    
     
+        visited[n-1][n-1] = temp
         return visited, visited[n-1][n-1]
     else:
         print("No successful path!")
@@ -58,7 +61,6 @@ def print_path(nodes, n, visited):
         print()
         
         visited[n-1][n-1] = -1*k
-        
         return visited, -1*k
 ## ----- End Print Successful Path ----- ##
 
@@ -105,8 +107,10 @@ def BFS(nodes, n):
 
 
 ## ----- Unit Test ----- ##
+'''
 nodes, n = generate_puzzle()
 print_matrix(nodes,n)
 visited, k = BFS(nodes, n)
+'''
 ## ----- End Unit Test ----- ##
 
