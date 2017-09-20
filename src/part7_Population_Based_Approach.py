@@ -17,8 +17,8 @@ def genetic_algorithm(puzzles, number_of_puzzles, size_of_puzzles): # puzzles is
   
     ## ----- Flatten Puzzle ----- ##
     population = [] # array of puzzles flattened to arrays
-    flattened_puzzle = [] # single puzzle flattened to arrays
     for i in range(0, number_of_puzzles):
+        flattened_puzzle = [] # single puzzle flattened to arrays
         for x in range(0, size_of_puzzles):
             for y in range(0, size_of_puzzles):
                 flattened_puzzle.append(puzzles[i][x][y])        
@@ -26,37 +26,45 @@ def genetic_algorithm(puzzles, number_of_puzzles, size_of_puzzles): # puzzles is
     ## ----- End Flatten Puzzle ----- ##
   
   
+    ##### Print The Flattenened Matrices
+    print('Flattened Matrices: ')
+    for i in range(0, number_of_puzzles):
+        for j in range(0, len(population[0])):
+            print(population[i][j]['value'], ', ', end = '')
+        print()
+    ##### End Print
+        
     ## ----- Evaluate Fitness ----- ##
     k_values = [] # k values of the puzzles
     survivability = [] # percent chance of the survivability of the puzzle
     selection = [] # number line representing each index
     k_sum = 0
     
-    
-    
     for i in range(0, len(population)):
         _, k = BFS(puzzles[i], size_of_puzzles)
-        if k <= 0:
+        if k < 0:
             k = 1 # puzzle is unsolveable, but we permit the slim possibility of survival
         k_values.append(k)
         k_sum += k
 
     for i in range(0, len(k_values)):
-        survivability.append(k_values[i]/k_sum) # Random division by 0 errors #####################################
+        survivability.append(k_values[i]/k_sum) 
         selection.append(sum(survivability))
     ## ----- End Evaluate Fitness ----- ##
     
     
-    ## ----- Print Lists ----- ##
-    '''
+    ##### Print the Fitnesses
+    print('K Values: ', end = '')
+    for i in range(0, len(selection)):
+        print(k_values[i], ', ' , end = '')
+    print()
     for i in range(0, len(selection)):
         print(survivability[i], ', ' , end = '')
     print()
     for i in range(0, len(selection)):
         print(selection[i], ', ' , end = '')
     print()
-    '''
-    ## ----- End Print Lists ----- ##
+    ##### End Print
     
     
     ## ----- Selection Step ----- ##
@@ -72,6 +80,16 @@ def genetic_algorithm(puzzles, number_of_puzzles, size_of_puzzles): # puzzles is
     ## ----- End Selection Step ----- ##
     
     
+    ##### Print The Flattenened Matrices
+    print('Selected Matrices: ')
+    for i in range(0, number_of_puzzles):
+        for j in range(0, len(selected_pop[0])):
+            print(selected_pop[i][j]['value'], ', ', end = '')
+        print()
+    print()
+    ##### End Print
+    
+    
     ## ----- Crossover Step ----- ##
     split_location = random.randint(1, len(population[0]) - 1)
     
@@ -85,6 +103,14 @@ def genetic_algorithm(puzzles, number_of_puzzles, size_of_puzzles): # puzzles is
         crossover_pop.append(par2[0:split_location] + par1[split_location:])
     ## ----- End Crossover Step ----- ##
     
+    ##### Print The Flattenened Matrices
+    print('Crossed Matrices at: ', split_location)
+    for i in range(0, number_of_puzzles):
+        for j in range(0, len(crossover_pop[0])):
+            print(crossover_pop[i][j]['value'], ', ', end = '')
+        print()
+    print()
+    ##### End Print
     
     ## ----- Reshape Puzzles ----- ##
     next_gen = [] # array of square matrix puzzles
@@ -151,6 +177,7 @@ for i in range(0, len(puzzles)):
 
 for i in range(0, iterations):
     puzzles = genetic_algorithm(puzzles, number_of_puzzles, size_of_puzzles)
+    input('Press Enter')
 
 print('Completed!!')
 for i in range(0, len(puzzles)):

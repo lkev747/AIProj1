@@ -78,7 +78,7 @@ def hill_climb(nodes, n, iteration):
 
 
 ## ----- Unit Test ----- ##
-'''
+
 ## ----- Input Puzzle Size ----- ##
 n = input('Enter the size of the puzzle grid (5, 7, 9, 11): ')  # need to validate
 n = int(n)
@@ -90,5 +90,5 @@ print_path(nodes, n, visited)
 new_nodes, new_visited, new_k = hill_climb(nodes, n, 500)
 print_matrix(nodes, n)
 print_path(new_nodes, n, new_visited)
-'''
+
 ## ----- End Unit Test ----- ##
