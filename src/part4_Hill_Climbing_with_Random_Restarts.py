@@ -5,7 +5,7 @@ Created on Sep 19, 2017
 '''
 ## ----- Import Statements ----- ##
 from part1_puzzle_representation import generate_puzzle
-from part2_puzzle_evaluation import print_path
+# import hillclimb
 ## ----- End Import Statements ----- ##
 
 ## ----- Hill Climb w Random Restart ----- ##
@@ -13,13 +13,15 @@ number_of_iterations = 50
 number_of_restarts = 10
 best_k_value_yet = -(n*n)
 best_puzzle_yet = None
+best_visited_puzzle_yet = None
 
 for m in range(0, number_of_restarts):
     nodes, n = generate_puzzle()
-    visited, k = Hill_Climb(nodes, n, iteration)
-    if(k > best_puzzle_yet):
+    new_nodes, new_visited, k = hill_climb(nodes, n, iteration)
+    if(k > best_k_value_yet):
         best_k_value_yet = k
-        best_puzzle_yet = nodes
+        best_puzzle_yet = new_nodes
+        best_visited_puzzle_yet = new_visited
 ## ----- End Hill Climb w Random Restart ----- ##        
 
 N = 500
