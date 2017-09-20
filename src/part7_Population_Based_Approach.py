@@ -32,15 +32,17 @@ def genetic_algorithm(puzzles, number_of_puzzles, size_of_puzzles): # puzzles is
     selection = [] # number line representing each index
     k_sum = 0
     
+    
+    
     for i in range(0, len(population)):
         _, k = BFS(puzzles[i], size_of_puzzles)
-        if k < 0:
+        if k <= 0:
             k = 1 # puzzle is unsolveable, but we permit the slim possibility of survival
         k_values.append(k)
         k_sum += k
 
     for i in range(0, len(k_values)):
-        survivability.append(k_values[i]/k_sum)
+        survivability.append(k_values[i]/k_sum) # Random division by 0 errors #####################################
         selection.append(sum(survivability))
     ## ----- End Evaluate Fitness ----- ##
     
@@ -88,12 +90,12 @@ def genetic_algorithm(puzzles, number_of_puzzles, size_of_puzzles): # puzzles is
     next_gen = [] # array of square matrix puzzles
     for i in range(0, number_of_puzzles):
         temp_matrix = [[{} for x in range(size_of_puzzles)] for y in range(size_of_puzzles)]
-        for j in range(0, (size_of_puzzles*size_of_puzzles) - 1):
+        for j in range(0, (size_of_puzzles*size_of_puzzles)):
             temp_matrix[math.floor(j / size_of_puzzles)][j % size_of_puzzles] = crossover_pop[i][j]
         next_gen.append(temp_matrix)
     ## ----- End Reshape Puzzles ----- ##
     
-    
+       
     ## ----- Mutation Step ----- ##
     for i in range(0, number_of_puzzles):
         ## ----- Choose Random Cell ----- ##
@@ -149,8 +151,10 @@ for i in range(0, len(puzzles)):
 
 for i in range(0, iterations):
     puzzles = genetic_algorithm(puzzles, number_of_puzzles, size_of_puzzles)
-    print('Ran Successfully: ', i)
-    
+
+print('Completed!!')
 for i in range(0, len(puzzles)):
     print_matrix(puzzles[i], size_of_puzzles)
+    visited, k = BFS(puzzles[i], size_of_puzzles)
+    print_path(puzzles[i], size_of_puzzles, visited)
 
