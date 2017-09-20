@@ -3,9 +3,10 @@ Created on Sep 19, 2017
 
 @author: Kevin Ely
 '''
+## ----- Import Statements ----- ##
 from part1_puzzle_representation import generate_puzzle
 from part2_puzzle_evaluation import print_path
-
+## ----- End Import Statements ----- ##
 
 ## ----- Hill Climb w Random Restart ----- ##
 number_of_iterations = 50
