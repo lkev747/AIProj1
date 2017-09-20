@@ -81,7 +81,11 @@ def hill_climb_simulated_annealing(nodes, n, iteration, temperature, decay_const
 number_of_iterations = 200
 initial_temp = 100
 initial_d = .7
-nodes, n = generate_puzzle()
+## ----- Input Puzzle Size ----- ##
+n = input('Enter the size of the puzzle grid (5, 7, 9, 11): ')  # need to validate
+n = int(n)
+## ----- End Input Puzzle Size ----- ##
+nodes = generate_puzzle(n)
 print_matrix(nodes, n)
 nodes, newvisited, newk = hill_climb_simulated_annealing(nodes, n, number_of_iterations, initial_temp, initial_d)
 print_matrix(nodes, n)

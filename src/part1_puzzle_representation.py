@@ -9,11 +9,7 @@ import random
 
 
 ## ----- Generate Random Puzzle ----- ##
-def generate_puzzle():
-    ## ----- Input Puzzle Size ----- ##
-    n = input('Enter the size of the puzzle grid (5, 7, 9, 11): ')  # need to validate
-    n = int(n)
-    ## ----- End Input Puzzle Size ----- ##
+def generate_puzzle(n):
     
     ## ----- Valid Matrix ----- ##
     puz = [[0 for x in range(n)] for y in range(n)]
@@ -69,7 +65,7 @@ def generate_puzzle():
             nodes[x][y]['level'] = 0
     ## ----- End Create Nodes ----- ##
 
-    return nodes, n
+    return nodes
 ## ----- End Generate Random Puzzle ----- ##
 
 

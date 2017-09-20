@@ -79,7 +79,11 @@ def hill_climb(nodes, n, iteration):
 
 ## ----- Unit Test ----- ##
 '''
-nodes, n = generate_puzzle()
+## ----- Input Puzzle Size ----- ##
+n = input('Enter the size of the puzzle grid (5, 7, 9, 11): ')  # need to validate
+n = int(n)
+## ----- End Input Puzzle Size ----- ##
+nodes = generate_puzzle(n)
 print_matrix(nodes,n)
 visited, k = BFS(nodes, n)
 print_path(nodes, n, visited)

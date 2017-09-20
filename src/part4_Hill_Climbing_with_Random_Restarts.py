@@ -15,7 +15,10 @@ from part3_basic_hill_climbing_approach import hill_climb
 ## ----- Hill Climb w Random Restart ----- ##
 number_of_iterations = 50 # Change to user input, N = 500
 number_of_restarts = 10 # Change to user input, N = 500
-n = 5 # Change to user input
+## ----- Input Puzzle Size ----- ##
+n = input('Enter the size of the puzzle grid (5, 7, 9, 11): ')  # need to validate
+n = int(n)
+## ----- End Input Puzzle Size ----- ##
 
 best_k_value_yet = -(n*n)
 best_puzzle_yet = None
@@ -23,7 +26,7 @@ best_visited_puzzle_yet = None
 
 for m in range(0, number_of_restarts):
     print('Creating new puzzle: ')
-    nodes, n = generate_puzzle()
+    nodes = generate_puzzle(n)
     print_matrix(nodes, n)
     
     new_nodes, new_visited, k = hill_climb(nodes, n, number_of_iterations)

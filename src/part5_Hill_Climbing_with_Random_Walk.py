@@ -83,7 +83,12 @@ def hill_climb_random_walk(nodes, n, iteration, probability):
 number_of_iterations = 50
 probability_of_accepting_random_walk = 10   # percentage
 
-nodes, n = generate_puzzle()
+## ----- Input Puzzle Size ----- ##
+n = input('Enter the size of the puzzle grid (5, 7, 9, 11): ')  # need to validate
+n = int(n)
+## ----- End Input Puzzle Size ----- ##
+
+nodes = generate_puzzle(n)
 print_matrix(nodes, n)
 nodes, newvisited, newk = hill_climb_random_walk(nodes, n, number_of_iterations, probability_of_accepting_random_walk)
 print_matrix(nodes, n)
