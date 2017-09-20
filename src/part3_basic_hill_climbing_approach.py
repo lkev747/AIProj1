@@ -76,6 +76,9 @@ def hill_climb(nodes, n, iteration):
     return nodes, newvisited, newk
 ## ----- End Hill-Climbing ----- ##
 
+
+## ----- Unit Test ----- ##
+'''
 nodes, n = generate_puzzle()
 print_matrix(nodes,n)
 visited, k = BFS(nodes, n)
@@ -83,3 +86,5 @@ print_path(nodes, n, visited)
 new_nodes, new_visited, new_k = hill_climb(nodes, n, 500)
 print_matrix(nodes, n)
 print_path(new_nodes, n, new_visited)
+'''
+## ----- End Unit Test ----- ##
