@@ -46,7 +46,7 @@ def generate_puzzle():
     
     n = 5
     '''
-    '''
+    
     # Fail - Value Function -3 Example
     puz = [[3, 3, 2, 4, 3],
            [2, 2, 2, 1, 1],
@@ -55,7 +55,7 @@ def generate_puzzle():
            [1, 1, 3, 2, 0]]
     
     n = 5
-    '''
+    
     ## ----- End Unit Tests ----- ##
     
 
@@ -75,7 +75,7 @@ def generate_puzzle():
 
 ## ----- Print Matrix ----- ##
 def print_matrix(nodes, n):
-    print('Randomly Generated Puzzle: ')
+    print('Resulting Puzzle: ')
     for x in range(0,n):
         for y in range(0,n):
             print(nodes[x][y]['value'], end = '')

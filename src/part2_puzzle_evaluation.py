@@ -35,17 +35,12 @@ def print_path(nodes, n, visited):
         print('Visited Matrix: ')
         
         visited[0][0] = 0
-        temp = 0
         for x in range(0, n):
             for y in range(0, n):
                 if visited[x][y] == 0 and (x != 0 or y != 0):
-                    temp = visited[n-1][n-1]
                     visited[x][y] = 'X'
-                print(visited[x][y], end = '')
-            print()    
-    
-        visited[n-1][n-1] = temp
-        return visited, visited[n-1][n-1]
+                print(visited[x][y], end = '')   
+            print() 
     else:
         print("No successful path!")
         visited[0][0] = 0
@@ -58,11 +53,26 @@ def print_path(nodes, n, visited):
                 print(visited[x][y], end = '')
             print()
         print('Value Function: ', -1 * k)
-        print()
         
-        visited[n-1][n-1] = -1*k
         return visited, -1*k
 ## ----- End Print Successful Path ----- ##
+
+
+## ----- Get k Value ----- ##
+def get_value(nodes, n, visited):
+    
+    if len(nodes[n-1][n-1]) == 5: # There is a successful path
+        return visited, visited[n-1][n-1] # returns visited matrix and k value
+    
+    else: # There is not a successful path
+        visited[0][0] = 0
+        k = 0
+        for x in range(0, n):
+            for y in range(0, n):
+                if visited[x][y] == 0 and (x != 0 or y != 0):
+                    k = k + 1
+        return visited, -1*k # returns visited matrix and k value
+## ----- End Get k Value ----- ##
 
 
 ## ----- Breadth-First Search ----- ##
@@ -80,29 +90,26 @@ def BFS(nodes, n):
             visited[w['xcoord'] + w['value']][w['ycoord']] = w['level'] + 1 # Mark new node as visited
             q.append(nodes[ w['xcoord'] + w['value']][w['ycoord']]) # Add child node to queue
             nodes[w['xcoord'] + w['value']][w['ycoord']]['parent'] = w
-            nodes[w['xcoord'] + w['value']][w['ycoord']]['level'] = w['level'] + 1
-            
+            nodes[w['xcoord'] + w['value']][w['ycoord']]['level'] = w['level'] + 1    
         if (w['xcoord'] - w['value'] >= 0) and (visited[w['xcoord'] - w['value']][w['ycoord']] == 0): 
             visited[ w['xcoord'] - w['value'] ][ w['ycoord'] ] = w['level'] + 1 # Mark new node as visited
             q.append(nodes[w['xcoord'] - w['value']][w['ycoord']]) # Add child node to queue
             nodes[w['xcoord'] - w['value']][w['ycoord']]['parent'] = w
-            nodes[w['xcoord'] - w['value']][w['ycoord']]['level'] = w['level'] + 1
-            
+            nodes[w['xcoord'] - w['value']][w['ycoord']]['level'] = w['level'] + 1   
         if (w['ycoord'] + w['value'] <= n-1) and (visited[w['xcoord']][w['ycoord'] + w['value']] == 0): 
             visited[w['xcoord']][w['ycoord'] + w['value']] = w['level'] + 1 # Mark new node as visited
             q.append(nodes[w['xcoord']][w['ycoord'] + w['value']]) # Add child node to queue
             nodes[w['xcoord']][w['ycoord'] + w['value']]['parent'] = w
-            nodes[w['xcoord']][w['ycoord'] + w['value']]['level'] = w['level'] + 1
-            
+            nodes[w['xcoord']][w['ycoord'] + w['value']]['level'] = w['level'] + 1  
         if (w['ycoord'] - w['value'] >= 0) and (visited[w['xcoord']][w['ycoord'] - w['value']] == 0): 
             visited[ w['xcoord']][w['ycoord'] - w['value']] = w['level'] + 1 # Mark new node as visited
             q.append(nodes[w['xcoord']][ w['ycoord'] - w['value']]) # Add child node to queue
             nodes[w['xcoord']][w['ycoord'] - w['value']]['parent'] = w
             nodes[w['xcoord']][w['ycoord'] - w['value']]['level'] = w['level'] + 1
 
-    k = print_path(nodes, n, visited)
+    visited, k = get_value(nodes, n, visited)
 
-    return visited, k
+    return visited, k  # Returns visited matrix and value function k
 ## ----- End Breadth-First Search ----- ##
 
 
@@ -111,6 +118,7 @@ def BFS(nodes, n):
 nodes, n = generate_puzzle()
 print_matrix(nodes,n)
 visited, k = BFS(nodes, n)
+print_path(nodes, n, visited)
 '''
 ## ----- End Unit Test ----- ##
 

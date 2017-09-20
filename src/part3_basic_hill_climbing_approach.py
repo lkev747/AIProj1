@@ -7,15 +7,15 @@ Created on Sep 16, 2017
 import random
 from part1_puzzle_representation import generate_puzzle
 from part1_puzzle_representation import print_matrix
+from part2_puzzle_evaluation import print_path
 from part2_puzzle_evaluation import BFS
 ## ----- End Import Statements ----- ##
 
 
 ## ----- Hill-Climbing ----- ##
-def hill_climb(nodes, n, iteration): # must return new_puzzle, new_visited, new_k
+def hill_climb(nodes, n, iteration): 
     for i in range(0, iteration):
-        visited, k = BFS(nodes, n)
-        oldk = visited[n-1][n-1]
+        visited, oldk = BFS(nodes, n)
         tempnode = 0
         
         ## ----- Choose Random Cell ----- ##
@@ -25,15 +25,11 @@ def hill_climb(nodes, n, iteration): # must return new_puzzle, new_visited, new_
         while a:
             randx = random.randint(0, n - 1)
             randy = random.randint(0, n - 1)
-            if randx != n-1 and randy != n-1:
+            if not (randx == n - 1 and randy == n - 1):
                 tempnode = nodes[randx][randy]['value']
                 a = False
         ## ----- End Choose Random Cell ----- ##
         
-        print()
-        print('Next Iteration: (', randx, end = '')
-        print(',', randy, ')',  end = '')
-        print('. Old node:', tempnode, end = '')
         
         ## ----- Choose Random Value ----- ##
         temp = 0
@@ -48,27 +44,42 @@ def hill_climb(nodes, n, iteration): # must return new_puzzle, new_visited, new_
                         break
         ## ----- End Choose Random Value ----- ##
         
-        print('. New node: ', temp)
-        print('New Matrix: ')
+        
+        ## ----- Print Details ----- ##
+        print()
+        print('Next Iteration: (', randx, ',', randy, ')',  end = '')
+        print(' | Old Value:', tempnode, '| New Value: ', temp)
+        ## ----- End Print Details ----- ##
+        
         
         ## ----- Print New Matrix ----- ##
+        print('New Matrix: ')
         for x in range(0, n):
             for y in range(0, n):
                 print(nodes[x][y]['value'], end = '')
             print()
-        ## ----- End Print New Matrix -----##
+        ## ----- End Print New Matrix ----- ##
         
-        newvisited, k = BFS(nodes, n)
-        newk = newvisited[n-1][n-1]
+        ## ----- Accept/Reject Change ----- ##
+        newvisited, newk = BFS(nodes, n)
         print('Old k value:', oldk, end = '')
         print('. New k value:', newk, end = '')
         if(newk < oldk):
-            nodes[randx][randy]['value'] = tempnode
+            nodes[randx][randy]['value'] = tempnode # Apply Reversion
             print('. Change Not Accepted')
         else:
             print('. Change Accepted')
-
+        ## ----- End Accept/Reject Change ----- ##
+        
+        
+    newvisited, newk = BFS(nodes, n)        
+    return nodes, newvisited, newk
+## ----- End Hill-Climbing ----- ##
 
 nodes, n = generate_puzzle()
 print_matrix(nodes,n)
-hill_climb(nodes, n, 50)
+visited, k = BFS(nodes, n)
+print_path(nodes, n, visited)
+new_nodes, new_visited, new_k = hill_climb(nodes, n, 500)
+print_matrix(nodes, n)
+print_path(new_nodes, n, new_visited)
