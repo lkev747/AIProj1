@@ -30,9 +30,9 @@ for i in range(0, 10):
             a = False
     ## ----- End Choose Random Cell ----- ##
     
-    print('x, ', randx)
-    print('y, ', randy)
-    print('old node: ', tempnode)
+    print('x,', randx, end = '')
+    print('. y,', randy, end = '')
+    print('. old node:', tempnode, end = '')
     
     ## ----- Choose Random Value ----- ##
     
@@ -48,7 +48,7 @@ for i in range(0, 10):
                     break
     ## ----- End Choose Random Value ----- ##
     
-    print('new node: ', temp)
+    print('. new node: ', temp)
     
     ## ----- Print New Matrix ----- ##
     for x in range(0, n):
@@ -59,13 +59,13 @@ for i in range(0, 10):
     
     newvisited = BFS(nodes, n)
     newk = newvisited[n-1][n-1]
-    print('Old k value: ', oldk)
-    print('New k value: ', newk)
-    if(newk >  oldk):
+    print('Old k value:', oldk, end = '')
+    print('. New k value:', newk, end = '')
+    if(newk < oldk):
         nodes[randx][randy]['value'] = tempnode
-        print('Change Not Accepted')
+        print('. Change Not Accepted')
     else:
-        print('Change Accepted')
+        print('. Change Accepted')
 
 
 

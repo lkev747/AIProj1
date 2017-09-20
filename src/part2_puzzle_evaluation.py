@@ -131,6 +131,7 @@ if len(nodes[n-1][n-1]) == 5: #########
             print(visited[x][y], end = '')
         print()    
 
+## Fix K value for No successful path
 else:
     print("No successful path!")
     visited[0][0] = 0
@@ -142,7 +143,7 @@ else:
                 k = k + 1
             print(visited[x][y], end = '')
         print()
-    print('Value Function: -', k)
+    print('Value Function: ', -1 * k)
     print()
     
   
