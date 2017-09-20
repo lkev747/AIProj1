@@ -11,40 +11,6 @@ from part1_puzzle_representation import print_matrix
 ## ----- End Import Statements ----- ##
 
 
-## ----- Unit Tests ----- ##
-'''
-# 19 Moves - Initial Example
-puz = [[3, 2, 1, 4, 1],
-       [3, 2, 1, 3, 3],
-       [3, 3, 2, 1, 4],
-       [3, 1, 2, 3, 3],
-       [1, 4, 4, 3, 0]]
-
-n = 5
-'''
-'''
-# Pass - Value Function 5 Example
-puz = [[2, 2, 2, 4, 3],
-       [2, 2, 3, 3, 3],
-       [3, 3, 2, 3, 3],
-       [4, 3, 2, 2, 2],
-       [1, 2, 1, 4, 0],]
-
-n = 5
-'''
-'''
-# Fail - Value Function -3 Example
-puz = [[3, 3, 2, 4, 3],
-       [2, 2, 2, 1, 1],
-       [4, 3, 1, 3, 4],
-       [2, 3, 1, 1, 3],
-       [1, 1, 3, 2, 0]]
-
-n = 5
-'''
-## ----- End Unit Tests ----- ##
-
-
 ## ----- Print Successful Path ----- #
 def print_path(nodes, n, visited):
     if len(nodes[n-1][n-1]) == 5: 
@@ -90,6 +56,9 @@ def print_path(nodes, n, visited):
             print()
         print('Value Function: ', -1 * k)
         print()
+        
+        visited[n-1][n-1] = -1*k
+        
         return visited, -1*k
 ## ----- End Print Successful Path ----- ##
 
