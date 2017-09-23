@@ -13,7 +13,7 @@ from part1_puzzle_representation import print_matrix
 
 ## ----- Print Successful Path ----- #
 def print_path(nodes, n, visited):
-    if len(nodes[n-1][n-1]) == 5: 
+    if visited[n-1][n-1] != 0: 
         print('Successful Path: ')
     
         goalpath = []
@@ -30,6 +30,8 @@ def print_path(nodes, n, visited):
         goalpath.reverse()
         for i in range(0, len(goalpath)):
             print('(', goalpath[i]['xcoord'], ', ', goalpath[i]['ycoord'], ')', end = '')
+            if (i + 1) % 10 == 0:
+                print()
         print()
         print('Value Function: ', visited[n-1][n-1])
         print('Visited Matrix: ')
@@ -38,7 +40,8 @@ def print_path(nodes, n, visited):
         for x in range(0, n):
             for y in range(0, n):
                 if visited[x][y] == 0 and (x != 0 or y != 0):
-                    visited[x][y] = 'X'
+                    #visited[x][y] = 'X'
+                    pass
                 print(visited[x][y], end = '')   
             print() 
     else:
@@ -47,8 +50,8 @@ def print_path(nodes, n, visited):
         k = 0
         for x in range(0, n):
             for y in range(0, n):
-                if visited[x][y] == 0 and (x != 0 or y != 0):
-                    visited[x][y] = 'X'
+                if visited[x][y] == 0 and not (x == 0 and y == 0):
+                    #visited[x][y] = 'X'
                     k = k + 1
                 print(visited[x][y], end = '')
             print()
@@ -61,7 +64,7 @@ def print_path(nodes, n, visited):
 ## ----- Get k Value ----- ##
 def get_value(nodes, n, visited):
     
-    if len(nodes[n-1][n-1]) == 5: # There is a successful path
+    if visited[n-1][n-1] != 0: # There is a successful path
         return visited, visited[n-1][n-1] # returns visited matrix and k value
     
     else: # There is not a successful path
@@ -69,7 +72,7 @@ def get_value(nodes, n, visited):
         k = 0
         for x in range(0, n):
             for y in range(0, n):
-                if visited[x][y] == 0 and (x != 0 or y != 0):
+                if visited[x][y] == 0 and not (x == 0 and y == 0):
                     k = k + 1
         return visited, -1*k # returns visited matrix and k value
 ## ----- End Get k Value ----- ##
