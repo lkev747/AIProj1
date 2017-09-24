@@ -5,6 +5,7 @@ Created on Sep 20, 2017
 '''
 ## ----- Import Statements ----- ##
 import random
+import time
 from part1_puzzle_representation import generate_puzzle
 from part1_puzzle_representation import print_matrix
 from part2_puzzle_evaluation import print_path
@@ -80,7 +81,7 @@ def hill_climb_random_walk(nodes, n, iteration, probability):
 
 
 ## ----- Unit Test ----- ##
-number_of_iterations = 50
+number_of_iterations = 500
 probability_of_accepting_random_walk = 10   # percentage
 
 ## ----- Input Puzzle Size ----- ##
@@ -90,9 +91,14 @@ n = int(n)
 
 nodes = generate_puzzle(n)
 print_matrix(nodes, n)
+
+start_time = time.time()
 nodes, newvisited, newk = hill_climb_random_walk(nodes, n, number_of_iterations, probability_of_accepting_random_walk)
+print("--- %s seconds ---" % (time.time()-start_time))  
+
 print_matrix(nodes, n)
 print_path(nodes, n, newvisited)
+print("End part 5")
 ## ----- End Unit Test ----- ##
 
 

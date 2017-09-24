@@ -6,6 +6,7 @@ Created on Sep 14, 2017
 
 
 ## ----- Import Statements ----- ##
+import time
 from part1_puzzle_representation import generate_puzzle
 from part1_puzzle_representation import print_matrix
 ## ----- End Import Statements ----- ##
@@ -124,7 +125,11 @@ n = int(n)
 ## ----- End Input Puzzle Size ----- ##
 nodes = generate_puzzle(n)
 print_matrix(nodes,n)
+
+start_time = time.time()
 visited, k = BFS(nodes, n)
+print("--- %s seconds ---" % (time.time()-start_time))    
+
 print_path(nodes, n, visited)
 '''
 ## ----- End Unit Test ----- ##

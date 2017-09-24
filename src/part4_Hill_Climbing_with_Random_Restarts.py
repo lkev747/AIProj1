@@ -4,6 +4,7 @@ Created on Sep 19, 2017
 @author: Kevin Ely
 '''
 ## ----- Import Statements ----- ##
+import time
 from part1_puzzle_representation import generate_puzzle
 from part1_puzzle_representation import print_matrix
 from part2_puzzle_evaluation import print_path
@@ -13,13 +14,14 @@ from part3_basic_hill_climbing_approach import hill_climb
 
 
 ## ----- Hill Climb w Random Restart ----- ##
-number_of_iterations = 50 # Change to user input, N = 500
+number_of_iterations = 500 # Change to user input, N = 500
 number_of_restarts = 10 # Change to user input, N = 500
 ## ----- Input Puzzle Size ----- ##
 n = input('Enter the size of the puzzle grid (5, 7, 9, 11): ')  # need to validate
 n = int(n)
 ## ----- End Input Puzzle Size ----- ##
 
+start_time = time.time()
 best_k_value_yet = -(n*n)
 best_puzzle_yet = None
 best_visited_puzzle_yet = None
@@ -36,10 +38,11 @@ for m in range(0, number_of_restarts):
         best_puzzle_yet = new_nodes
         best_visited_puzzle_yet = new_visited
         print_matrix(best_puzzle_yet, n)
-
+print("--- %s seconds ---" % (time.time()-start_time))   
 ## ----- End Hill Climb w Random Restart ----- ##        
 
 print()
 print('Highest Value: ')
 print_matrix(best_puzzle_yet, n)
 print_path(best_puzzle_yet, n, best_visited_puzzle_yet)
+print("End part 4")

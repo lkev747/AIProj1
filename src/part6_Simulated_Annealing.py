@@ -6,6 +6,7 @@ Created on Sep 20, 2017
 ## ----- Import Statements ----- ##
 import random
 import math
+import time
 from part1_puzzle_representation import generate_puzzle
 from part1_puzzle_representation import print_matrix
 from part2_puzzle_evaluation import print_path
@@ -78,7 +79,7 @@ def hill_climb_simulated_annealing(nodes, n, iteration, temperature, decay_const
 ## ----- End Hill-Climbing w Simulated Annealing ----- ##
 
 ## ----- Unit Test ----- ##
-number_of_iterations = 500
+number_of_iterations = 20000
 initial_temp = 100
 initial_d = .7
 ## ----- Input Puzzle Size ----- ##
@@ -87,7 +88,12 @@ n = int(n)
 ## ----- End Input Puzzle Size ----- ##
 nodes = generate_puzzle(n)
 print_matrix(nodes, n)
+
+start_time = time.time()
 nodes, newvisited, newk = hill_climb_simulated_annealing(nodes, n, number_of_iterations, initial_temp, initial_d)
+print("--- %s seconds ---" % (time.time()-start_time))
+  
 print_matrix(nodes, n)
 print_path(nodes, n, newvisited)
+print("End part 6")
 ## ----- End Unit Test ----- ##

@@ -5,6 +5,7 @@ Created on Sep 16, 2017
 '''
 ## ----- Import Statements ----- ##
 import random
+import time
 from part1_puzzle_representation import generate_puzzle
 from part1_puzzle_representation import print_matrix
 from part2_puzzle_evaluation import print_path
@@ -38,10 +39,8 @@ def hill_climb(nodes, n, iteration):
             for k in range(0, int((n - 1)/2) + 1):
                 if(randx == k or randx == n - (k + 1) or randy == k or randy == n - (k + 1)): 
                     temp = random.randint(1, n - (k + 1))
-                    print("Temporary Number", temp)
                     if temp != nodes[randx][randy]['value']:
                         nodes[randx][randy]['value'] = temp
-                        print("Successful Number", temp)
                         b = False
                         break
         ## ----- End Choose Random Value ----- ##
@@ -80,7 +79,7 @@ def hill_climb(nodes, n, iteration):
 
 
 ## ----- Unit Test ----- ##
-
+'''
 ## ----- Input Puzzle Size ----- ##
 n = input('Enter the size of the puzzle grid (5, 7, 9, 11): ')  # need to validate
 n = int(n)
@@ -89,8 +88,11 @@ nodes = generate_puzzle(n)
 print_matrix(nodes,n)
 visited, k = BFS(nodes, n)
 print_path(nodes, n, visited)
+start_time = time.time()
 new_nodes, new_visited, new_k = hill_climb(nodes, n, 500)
+print("--- %s seconds ---" % (time.time()-start_time)) 
 print_matrix(nodes, n)
 print_path(new_nodes, n, new_visited)
-
+print("End part 3")
+'''
 ## ----- End Unit Test ----- ##
