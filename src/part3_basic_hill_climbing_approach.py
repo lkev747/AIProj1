@@ -38,8 +38,10 @@ def hill_climb(nodes, n, iteration):
             for k in range(0, int((n - 1)/2) + 1):
                 if(randx == k or randx == n - (k + 1) or randy == k or randy == n - (k + 1)): 
                     temp = random.randint(1, n - (k + 1))
+                    print("Temporary Number", temp)
                     if temp != nodes[randx][randy]['value']:
                         nodes[randx][randy]['value'] = temp
+                        print("Successful Number", temp)
                         b = False
                         break
         ## ----- End Choose Random Value ----- ##

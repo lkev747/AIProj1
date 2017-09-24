@@ -69,14 +69,33 @@ def genetic_algorithm(puzzles, number_of_puzzles, size_of_puzzles): # puzzles is
     
     ## ----- Selection Step ----- ##
     selected_pop = [] # Selected Population of flattened puzzles
-    for _ in range(0, number_of_puzzles):
-        temp = random.random()
-        index = 0
-        for i in selection:
-            if temp < i:
-                break
-            index += 1
-        selected_pop.append(population[index])
+    for j in range(0, number_of_puzzles):
+        #index = 0
+        #temp = random.random()
+        #for i in selection:
+        #    if temp < i:
+        #        break
+        #    index += 1
+        
+        flag = True     # flag is true means we are picking a differeing string
+        while(flag):
+            index = 0
+            temp = random.random()
+            for i in selection:
+                if temp < i:
+                    break
+                index += 1
+            if(j > 0):
+                if (selected_pop[-1] == population[index]):
+                    flag = True
+                else:
+                   selected_pop.append(population[index])
+                   flag = False 
+            else:
+                selected_pop.append(population[index])
+                flag = False
+            
+        
     ## ----- End Selection Step ----- ##
     
     
@@ -91,37 +110,28 @@ def genetic_algorithm(puzzles, number_of_puzzles, size_of_puzzles): # puzzles is
     
     
     ## ----- Crossover Step ----- ##
-    split_location = random.randint(1, len(population[0]) - 1)
-    
-    ## I think I fixed the error here, it had to do with popping off selected_pop, but there was nothing on it. Something with the index
     if len(selected_pop) % 2 > 0: # in case of odd number of puzzles
-        print("Enter if")
-        print (len(selected_pop))
         selected_pop.append(population[0])
-        #population.append(selected_pop[0])
-        print (len(selected_pop))
-        print("End if")
         print()
     crossover_pop = [] # List of child arrays post-mating
     while selected_pop:
-        print (len(selected_pop))
         par1 = selected_pop.pop(0)
-        print (len(selected_pop))
         par2 = selected_pop.pop(0)
-        print (len(selected_pop))
-        print()
+        split_location = random.randint(1, len(population[0]) - 1)
+        print('Crossed Matrices at: ', split_location)
         crossover_pop.append(par1[0:split_location] + par2[split_location:])
+        split_location = random.randint(1, len(population[0]) - 1)
+        print('Crossed Matrices at: ', split_location)
         crossover_pop.append(par2[0:split_location] + par1[split_location:])
     ## ----- End Crossover Step ----- ##
     
-    ##### Print The Flattenened Matrices
-    print('Crossed Matrices at: ', split_location)
+    ## ----- Print The Flattenened Matrices ----- ##
     for i in range(0, number_of_puzzles):
         for j in range(0, len(crossover_pop[0])):
             print(crossover_pop[i][j]['value'], ', ', end = '')
         print()
     print()
-    ##### End Print
+    ## ----- End Print the Flattened Matrices----- ##
     
     ## ----- Reshape Puzzles ----- ##
     next_gen = [] # array of square matrix puzzles
@@ -142,11 +152,15 @@ def genetic_algorithm(puzzles, number_of_puzzles, size_of_puzzles): # puzzles is
         while a:
             randx = random.randint(0, size_of_puzzles - 1)
             randy = random.randint(0, size_of_puzzles - 1)
-            if not (randx == size_of_puzzles - 1 and randy == size_of_puzzles - 1):
+            if (randx == size_of_puzzles - 1 and randy == size_of_puzzles - 1):
+                a = True
+            else:
                 a = False
         ## ----- End Choose Random Cell ----- ##
             
         ## ----- Choose Random Value ----- ##
+        
+        ## move the while loop?
         temp = 0
         b = True
         while b:
@@ -159,7 +173,6 @@ def genetic_algorithm(puzzles, number_of_puzzles, size_of_puzzles): # puzzles is
                         break
         ## ----- End Choose Random Value ----- ##
     ## ----- End Mutation Step ----- ##
-
     return next_gen
 
 
@@ -186,13 +199,14 @@ for i in range(0, len(puzzles)):
     print()
 ## ----- End Print Population ----- ##
 
+
+## ----- Unit Test ----- ##
 for i in range(0, iterations):
     puzzles = genetic_algorithm(puzzles, number_of_puzzles, size_of_puzzles)
-    input('Press Enter')
 
 print('Completed!!')
 for i in range(0, len(puzzles)):
     print_matrix(puzzles[i], size_of_puzzles)
     visited, k = BFS(puzzles[i], size_of_puzzles)
     print_path(puzzles[i], size_of_puzzles, visited)
-
+## ----- End Unit Test ----- ##
