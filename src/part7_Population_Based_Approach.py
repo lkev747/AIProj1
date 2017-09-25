@@ -165,19 +165,18 @@ def genetic_algorithm(puzzles, number_of_puzzles, size_of_puzzles): # puzzles is
         mutate_value = [-1]*size_of_puzzles
         for p in range(0, size_of_puzzles):
             temp_value = 0
-            for k in range(0, int((size_of_puzzles - 1)/2) + 1):
-                if(mutate_x[p] == k or mutate_x[p] == size_of_puzzles - (k + 1) or mutate_y[p] == k or mutate_y[p] == size_of_puzzles - (k + 1)): 
-                    pick_again = True
-                    while pick_again:
-                        temp_value = random.randint(1, size_of_puzzles - (k + 1))
-                        print("temp selected", temp_value)
-                        if not (temp_value == next_gen[i][mutate_x[p]][mutate_y[p]]['value']): # meaning the random value is different from the previous value already in the cell
-                            #next_gen[mutate_x[p]][mutate_y[p]]['value'] = temp_value
-                            mutate_value[p] = temp_value
-                            print(mutate_value)
-                            pick_again = False
-                            break
-                break
+            pick_again = True
+            while pick_again:
+                for k in range(0, int((size_of_puzzles - 1)/2) + 1):
+                    if(mutate_x[p] == k or mutate_x[p] == size_of_puzzles - (k + 1) or mutate_y[p] == k or mutate_y[p] == size_of_puzzles - (k + 1)): 
+                            temp_value = random.randint(1, size_of_puzzles - (k + 1))
+                            print("temp selected", temp_value)
+                            if not (temp_value == next_gen[i][mutate_x[p]][mutate_y[p]]['value']): # meaning the random value is different from the previous value already in the cell
+                                #next_gen[mutate_x[p]][mutate_y[p]]['value'] = temp_value
+                                mutate_value[p] = temp_value
+                                print(mutate_value)
+                                pick_again = False
+                                break
         print(mutate_value)
             ## Assign the random number to the cell
         for q in range(0, size_of_puzzles):
