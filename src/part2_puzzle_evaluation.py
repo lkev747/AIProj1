@@ -29,7 +29,11 @@ def print_path(nodes, n, visited):
         
         goalpath.append(nodes[0][0])
         goalpath.reverse()
+        
+        goal = ''
+        
         for i in range(0, len(goalpath)):
+            goal = goal + '(' + str(goalpath[i]['xcoord']) + ',' + str(goalpath[i]['ycoord']) + ')'            
             print('(', goalpath[i]['xcoord'], ', ', goalpath[i]['ycoord'], ')', end = '')
             if (i + 1) % 10 == 0:
                 print()
@@ -40,11 +44,10 @@ def print_path(nodes, n, visited):
         visited[0][0] = 0
         for x in range(0, n):
             for y in range(0, n):
-                if visited[x][y] == 0 and (x != 0 or y != 0):
-                    #visited[x][y] = 'X'
-                    pass
                 print(visited[x][y], end = '')   
-            print() 
+            print()
+    
+        return goal
     else:
         print("No successful path!")
         visited[0][0] = 0
@@ -58,7 +61,7 @@ def print_path(nodes, n, visited):
             print()
         print('Value Function: ', -1 * k)
         
-        return visited, -1*k
+        return None
 ## ----- End Print Successful Path ----- ##
 
 
