@@ -142,8 +142,61 @@ def genetic_algorithm(puzzles, number_of_puzzles, size_of_puzzles): # puzzles is
         next_gen.append(temp_matrix)
     ## ----- End Reshape Puzzles ----- ##
     
+    ## Mutation for all Puzzles
+    for i in range(0, number_of_puzzles):
+    ## Mutation Step for each Puzzle ##
+            ## Pick a cell
+        mutate_x = [0]*size_of_puzzles
+        mutate_y = [0]*size_of_puzzles 
+        
+        for m in range(0, size_of_puzzles):
+            pick_again = True
+            while pick_again:
+                randx = random.randint(0, size_of_puzzles - 1)
+                randy = random.randint(0, size_of_puzzles - 1)
+                if not (randx == size_of_puzzles - 1 and randy == size_of_puzzles -1):  # meaning the goal cell was not picked
+                    ## we also want to check that this cell wasnt picked already
+                    mutate_x[m] = randx
+                    mutate_y[m] = randy
+                    pick_again = False
+                    break
+        print(mutate_x, mutate_y)       
+            ## Pick a random number
+        mutate_value = [0]*size_of_puzzles
+        for p in range(0, size_of_puzzles):
+            temp_value = 0
+            for k in range(0, int((size_of_puzzles - 1)/2) + 1):
+                if(mutate_x[p] == k or mutate_x[p] == size_of_puzzles - (k + 1) or mutate_y[p] == k or mutate_y[p] == size_of_puzzles - (k + 1)): 
+                    pick_again = True
+                    while pick_again:
+                        temp_value = random.randint(1, size_of_puzzles - (k + 1))
+                        if not (temp_value == next_gen[i][mutate_x[p]][mutate_y[p]]['value']): # meaning the random value is different from the previous value already in the cell
+                            #next_gen[mutate_x[p]][mutate_y[p]]['value'] = temp_value
+                            mutate_value[p] = temp_value
+                            pick_again = False
+                            break
+            break
+        print(mutate_value)
+            ## Assign the random number to the cell
+        for q in range(0, size_of_puzzles):
+            next_gen[i][mutate_x[q]][mutate_y[q]]['value'] = mutate_value[q]
+        
+        ## print out next gen
+        for w in range(0, number_of_puzzles):
+            for x in range(0, size_of_puzzles):
+                for y in range(0, size_of_puzzles):
+                    print(next_gen[w][x][y]['value'], ', ', end='')
+                print()
+            print()
+        
+        
+    return next_gen 
+    ## End Mutation Step for each Puzzle ##
+    
+    ## End Mutation Step for all Puzzles ##
        
     ## ----- Mutation Step ----- ##
+    '''
     for i in range(0, number_of_puzzles):
         mutation_x = [0]*size_of_puzzles
         mutation_y = [0]*size_of_puzzles
@@ -174,39 +227,32 @@ def genetic_algorithm(puzzles, number_of_puzzles, size_of_puzzles): # puzzles is
                         mutation_x[j] = randx
                         mutation_y[j] = randy
             ## ----- End Choose Random Cell ----- ##
-        print(mutation_x, mutation_y)   
+           
             ## ----- Choose Random Value ----- ##
         for p in range(0, size_of_puzzles):
             temp = 0
             b = True
-            print("Entering while b")
+            #print("Entering while b")
             while b:
                 for k in range(0, int((size_of_puzzles - 1)/2) + 1):
                     if(mutation_x[p] == k or mutation_x[p] == size_of_puzzles - (k + 1) or mutation_y[p] == k or mutation_y[p] == size_of_puzzles - (k + 1)): 
                         temp = random.randint(1, size_of_puzzles - (k + 1))
+                        if(temp == 0):
+                            print("temp = 0")
                         if temp != next_gen[i][randx][randy]['value']:
-                            for q in range(0, p):
-                                if(q > 0):
-                                    print("q > 0")
-                                    if(mutation_value[q] == temp):
-                                        print("repeating value at, ", p)
-                                        b = True
-                                    else:
-                                        next_gen[i][mutation_x[p]][mutation_y[p]]['value'] = temp
-                                        print("new value at, ", p)
-                                        b = False
-                                        mutation_value[p] = temp
-                                        break
-                                else:
-                                    print("q = 0")
-                                    mutation_value[p] = temp
-                                    b = False
+                            mutation_value[p] = temp
+                            b = False
+                            #print("value, ", temp, "at P, ", p)
+                            break
                 break
-            print("Exiting while b")
+            #print("Exiting while b")
             ## ----- End Choose Random Value ----- ##
+        for r in range(0, size_of_puzzles):
+            next_gen[i][mutation_x[r]][mutation_y[r]]['value'] = mutation_value[r]
     ## ----- End Mutation Step ----- ##
-    print(mutation_x, mutation_y, mutation_value)
-    return next_gen
+        print(mutation_x, mutation_y, mutation_value)
+        '''
+    
 
 
 ## ----- Input Puzzle Size ----- ##
