@@ -89,8 +89,8 @@ def genetic_algorithm(puzzles, number_of_puzzles, size_of_puzzles): # puzzles is
                 if (selected_pop[-1] == population[index]):
                     flag = True
                 else:
-                   selected_pop.append(population[index])
-                   flag = False 
+                    selected_pop.append(population[index])
+                    flag = False 
             else:
                 selected_pop.append(population[index])
                 flag = False
@@ -170,11 +170,9 @@ def genetic_algorithm(puzzles, number_of_puzzles, size_of_puzzles): # puzzles is
                 for k in range(0, int((size_of_puzzles - 1)/2) + 1):
                     if(mutate_x[p] == k or mutate_x[p] == size_of_puzzles - (k + 1) or mutate_y[p] == k or mutate_y[p] == size_of_puzzles - (k + 1)): 
                             temp_value = random.randint(1, size_of_puzzles - (k + 1))
-                            print("temp selected", temp_value)
                             if not (temp_value == next_gen[i][mutate_x[p]][mutate_y[p]]['value']): # meaning the random value is different from the previous value already in the cell
                                 #next_gen[mutate_x[p]][mutate_y[p]]['value'] = temp_value
                                 mutate_value[p] = temp_value
-                                print(mutate_value)
                                 pick_again = False
                                 break
         print(mutate_value)
@@ -183,14 +181,15 @@ def genetic_algorithm(puzzles, number_of_puzzles, size_of_puzzles): # puzzles is
             next_gen[i][mutate_x[q]][mutate_y[q]]['value'] = mutate_value[q]
         
         ## print out next gen
+        '''
         for w in range(0, number_of_puzzles):
             for x in range(0, size_of_puzzles):
                 for y in range(0, size_of_puzzles):
                     print(next_gen[w][x][y]['value'], ', ', end='')
                 print()
             print()
-        
-        
+        '''
+
     return next_gen 
     ## End Mutation Step for each Puzzle ##
     
