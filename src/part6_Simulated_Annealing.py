@@ -79,6 +79,7 @@ def hill_climb_simulated_annealing(nodes, n, iteration, temperature, decay_const
 ## ----- End Hill-Climbing w Simulated Annealing ----- ##
 
 ## ----- Unit Test ----- ##
+'''
 number_of_iterations = 20000
 initial_temp = 100
 initial_d = .7
@@ -96,4 +97,5 @@ print("--- %s seconds ---" % (time.time()-start_time))
 print_matrix(nodes, n)
 print_path(nodes, n, newvisited)
 print("End part 6")
+'''
 ## ----- End Unit Test ----- ##

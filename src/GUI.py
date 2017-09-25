@@ -9,6 +9,10 @@ from tkinter import *
 import random
 from part1_puzzle_representation import *
 from part2_puzzle_evaluation import *
+from part3_basic_hill_climbing_approach import hill_climb
+from part4_Hill_Climbing_with_Random_Restarts import hill_climbing_random_restart
+from part5_Hill_Climbing_with_Random_Walk import hill_climb_random_walk
+from part6_Simulated_Annealing import hill_climb_simulated_annealing
 ## ----- End Import Statements ----- ##
 
 
@@ -64,6 +68,14 @@ def open_file(event):
 ## ----- End Open File, Display Puzzle ----- ##
 
 
+
+## ----- Clear Spaces ----- ##
+def clear_space(event):
+    event.widget.delete(0, "end")
+    return None
+## ----- End Clear Spaces ----- ##
+
+
 ## ----- Task 2 Call: Evaluate Puzzle ----- ##
 def solve(event):
     visited, k = BFS(p_grid, p_size)
@@ -77,16 +89,186 @@ def solve(event):
     solution = print_path(p_grid, p_size, visited)
     
     Label(frame6, text = solution).grid(row = 0, column = 1, sticky = W, padx = 8)
-    
 ## ----- End Task 2 Call: Evaluate Puzzle ----- ##
 
 
 
 ## ----- Task 3 Call: Hill Climbing ----- ##
 def hill(event):
-    pass
+    iteration = int(num_iter1.get())
+    puzzle, visited, k = hill_climb(p_grid, p_size, iteration)
+            
+    root2 = Tk()
+    frameA = Frame(root2) # contains Puzzle Label
+    frameB = Frame(root2) # contains New Puzzle
+    frameC = Frame(root2) # contains Visit Matrix Label
+    frameD = Frame(root2) # contains Visit Matrix
+    frameE = Frame(root2) # contains Steps and K Value
 
+    Label(frameA, text = "New Puzzle").grid(row = 0, column = 0)
+    Label(frameC, text = "Visited Matrix").grid(row = 0, column = 0)
+    
+    for x in range(0, p_size):
+        for y in range(0, p_size):
+            Label(frameB, text = puzzle[x][y]['value']).grid(row = x,
+                                                             column = y,
+                                                             sticky = W,
+                                                             padx = 5)
+            Label(frameD, text = visited[x][y]).grid(row = x,
+                                                     column = y,
+                                                     sticky = W,
+                                                     padx = 5)
+    
+    Label(frameD, text = 0).grid(row = 0, column = 0, sticky = W, padx = 5)
+    solution = print_path(puzzle, p_size, visited)
+    
+    Label(frameE, text = "Path: ").grid(row = 0, column = 0, sticky = W)
+    Label(frameE, text = solution).grid(row = 0, column = 1, sticky = W)
+    Label(frameE, text = "K Value: ").grid(row = 1, column = 0, sticky = W)
+    Label(frameE, text = k).grid(row = 1, column = 1, sticky = W)
+    
+    frameA.grid(row = 0, column = 0)
+    frameB.grid(row = 1, column = 0)
+    frameC.grid(row = 0, column = 1)
+    frameD.grid(row = 1, column = 1)
+    frameE.grid(row = 2, column = 1)        
+    root2.mainloop()
 ## ----- End Task 3 Call: Hill Climbing ----- ##
+
+
+
+## ----- Task 4 Call: Hill Climbing w/ RR ----- ##
+def hill_rr(event):
+    iteration = int(num_iter2.get())
+    restarts = int(num_rest.get())
+    
+    puzzle, visited, k = hill_climbing_random_restart(p_grid, p_size, iteration, restarts)
+    
+    root2 = Tk()
+    frameA = Frame(root2) # contains Puzzle Label
+    frameB = Frame(root2) # contains New Puzzle
+    frameC = Frame(root2) # contains Visit Matrix Label
+    frameD = Frame(root2) # contains Visit Matrix
+    frameE = Frame(root2) # contains Steps and K Value
+
+    Label(frameA, text = "New Puzzle").grid(row = 0, column = 0)
+    Label(frameC, text = "Visited Matrix").grid(row = 0, column = 0)
+    
+    for x in range(0, p_size):
+        for y in range(0, p_size):
+            Label(frameB, text = puzzle[x][y]['value']).grid(row = x,
+                                                             column = y,
+                                                             sticky = W,
+                                                             padx = 5)
+            Label(frameD, text = visited[x][y]).grid(row = x,
+                                                     column = y,
+                                                     sticky = W,
+                                                     padx = 5)
+    Label(frameD, text = 0).grid(row = 0, column = 0, sticky = W, padx = 5)
+    solution = print_path(puzzle, p_size, visited)
+    
+    Label(frameE, text = "Path: ").grid(row = 0, column = 0, sticky = W)
+    Label(frameE, text = solution).grid(row = 0, column = 1, sticky = W)
+    Label(frameE, text = "K Value: ").grid(row = 1, column = 0, sticky = W)
+    Label(frameE, text = k).grid(row = 1, column = 1, sticky = W)
+    
+    frameA.grid(row = 0, column = 0)
+    frameB.grid(row = 1, column = 0)
+    frameC.grid(row = 0, column = 1)
+    frameD.grid(row = 1, column = 1)
+    frameE.grid(row = 2, column = 1)        
+    root2.mainloop()
+
+## ----- End Task 4 Call: Hill Climbing w/ RR ----- ##
+
+
+## ----- Task 5 Call: Hill Climbing w/ RW ----- ##
+def hill_rw(event):
+    iteration = int(num_iter3.get())
+    probability = int(walk_prob.get())
+    puzzle, visited, k = hill_climb_random_walk(p_grid, p_size, iteration, probability)
+            
+    root2 = Tk()
+    frameA = Frame(root2) # contains Puzzle Label
+    frameB = Frame(root2) # contains New Puzzle
+    frameC = Frame(root2) # contains Visit Matrix Label
+    frameD = Frame(root2) # contains Visit Matrix
+    frameE = Frame(root2) # contains Steps and K Value
+
+    Label(frameA, text = "New Puzzle").grid(row = 0, column = 0)
+    Label(frameC, text = "Visited Matrix").grid(row = 0, column = 0)
+    
+    for x in range(0, p_size):
+        for y in range(0, p_size):
+            Label(frameB, text = puzzle[x][y]['value']).grid(row = x,
+                                                             column = y,
+                                                             sticky = W,
+                                                             padx = 5)
+            Label(frameD, text = visited[x][y]).grid(row = x,
+                                                     column = y,
+                                                     sticky = W,
+                                                     padx = 5)
+    Label(frameD, text = 0).grid(row = 0, column = 0, sticky = W, padx = 5)
+    solution = print_path(puzzle, p_size, visited)
+    
+    Label(frameE, text = "Path: ").grid(row = 0, column = 0, sticky = W)
+    Label(frameE, text = solution).grid(row = 0, column = 1, sticky = W)
+    Label(frameE, text = "K Value: ").grid(row = 1, column = 0, sticky = W)
+    Label(frameE, text = k).grid(row = 1, column = 1, sticky = W)
+    
+    frameA.grid(row = 0, column = 0)
+    frameB.grid(row = 1, column = 0)
+    frameC.grid(row = 0, column = 1)
+    frameD.grid(row = 1, column = 1)
+    frameE.grid(row = 2, column = 1)        
+    root2.mainloop()
+## ----- End Task 5 Call: Hill Climbing w/ RW ----- ##
+
+
+## ----- Task 6 Call: Simulated Annealing ----- ##
+def sim_ann(event):
+    iteration = int(num_iter4.get())
+    temperature = int(temper.get())
+    decay_rate = float(decay_const.get())
+    puzzle, visited, k = hill_climb_simulated_annealing(p_grid, p_size, iteration, temperature, decay_rate)
+            
+    root2 = Tk()
+    frameA = Frame(root2) # contains Puzzle Label
+    frameB = Frame(root2) # contains New Puzzle
+    frameC = Frame(root2) # contains Visit Matrix Label
+    frameD = Frame(root2) # contains Visit Matrix
+    frameE = Frame(root2) # contains Steps and K Value
+
+    Label(frameA, text = "New Puzzle").grid(row = 0, column = 0)
+    Label(frameC, text = "Visited Matrix").grid(row = 0, column = 0)
+    
+    for x in range(0, p_size):
+        for y in range(0, p_size):
+            Label(frameB, text = puzzle[x][y]['value']).grid(row = x,
+                                                             column = y,
+                                                             sticky = W,
+                                                             padx = 5)
+            Label(frameD, text = visited[x][y]).grid(row = x,
+                                                     column = y,
+                                                     sticky = W,
+                                                     padx = 5)
+    Label(frameD, text = 0).grid(row = 0, column = 0, sticky = W, padx = 5)
+    solution = print_path(puzzle, p_size, visited)
+    
+    Label(frameE, text = "Path: ").grid(row = 0, column = 0, sticky = W)
+    Label(frameE, text = solution).grid(row = 0, column = 1, sticky = W)
+    Label(frameE, text = "K Value: ").grid(row = 1, column = 0, sticky = W)
+    Label(frameE, text = k).grid(row = 1, column = 1, sticky = W)
+    
+    frameA.grid(row = 0, column = 0)
+    frameB.grid(row = 1, column = 0)
+    frameC.grid(row = 0, column = 1)
+    frameD.grid(row = 1, column = 1)
+    frameE.grid(row = 2, column = 1)        
+    root2.mainloop()
+
+
+## ----- End Task 6 Call: Simulated Annealing ----- ##
 
 
 ## ----- Simple Gui ----- ##
@@ -175,65 +357,74 @@ Label(frame6, text = 'K-Value: ').grid(row = 1, column = 0, sticky = W)
 Label(frame7, text = 'New Puzzle').grid(row = 0, column = 0, pady = 10)
 
 b_hill = Button(frame7, text = "Hill Climb Only    ")
-b_hill.bind("<Button-1>")
+b_hill.bind("<Button-1>", hill)
 b_hill.grid(row = 1, column = 0, sticky = W, padx = 10)
 
-num_iter1 = Entry(frame7, width = 10)
+num_iter1 = Entry(frame7, width = 15)
 num_iter1.grid(row = 1, column = 1)
 num_iter1.insert(0, "# Steps?")
+num_iter1.bind("<Button-1>", clear_space)
 
 b_hill_rr = Button(frame7, text = "Hill Climb w/ RR  ")
-b_hill_rr.bind("<Button-1>")
+b_hill_rr.bind("<Button-1>", hill_rr)
 b_hill_rr.grid(row = 2, column = 0, sticky = W, padx = 10)
 
-num_iter2 = Entry(frame7, width = 10)
+num_iter2 = Entry(frame7, width = 15)
 num_iter2.grid(row = 2, column = 1)
 num_iter2.insert(0, "# Steps?")
+num_iter2.bind("<Button-1>", clear_space)
 
-num_rest = Entry(frame7, width = 10)
+num_rest = Entry(frame7, width = 15)
 num_rest.grid(row = 2, column = 2)
 num_rest.insert(0, "# Restarts?")
+num_rest.bind("<Button-1>", clear_space)
 
 b_hill_rw = Button(frame7, text = "Hill Climb w/ RW ")
-b_hill_rw.bind("<Button-1>")
+b_hill_rw.bind("<Button-1>", hill_rw)
 b_hill_rw.grid(row = 3, column = 0, sticky = W, padx = 10)
 
-num_iter3 = Entry(frame7, width = 10)
+num_iter3 = Entry(frame7, width = 15)
 num_iter3.grid(row = 3, column = 1)
 num_iter3.insert(0, "# Steps?")
+num_iter3.bind("<Button-1>", clear_space)
 
-walk_prob = Entry(frame7, width = 10)
+walk_prob = Entry(frame7, width = 15)
 walk_prob.grid(row = 3, column = 2)
-walk_prob.insert(0, "Walk Prob.?")
+walk_prob.insert(0, "Prob: 0-100?")
+walk_prob.bind("<Button-1>", clear_space)
 
 b_sim_an = Button(frame7, text = "Simulate Anneal   ")
-b_sim_an.bind("<Button-1>")
+b_sim_an.bind("<Button-1>", sim_ann)
 b_sim_an.grid(row = 4, column = 0, sticky = W, padx = 10)
 
-num_iter4 = Entry(frame7, width = 10)
+num_iter4 = Entry(frame7, width = 15)
 num_iter4.grid(row = 4, column = 1)
 num_iter4.insert(0, "# Steps?")
+num_iter4.bind("<Button-1>", clear_space)
 
-temper = Entry(frame7, width = 10)
+temper = Entry(frame7, width = 15)
 temper.grid(row = 4, column = 2)
 temper.insert(0, "Temperature?")
+temper.bind("<Button-1>", clear_space)
 
-decay_const = Entry(frame7, width = 10)
+decay_const = Entry(frame7, width = 15)
 decay_const.grid(row = 4, column = 3)
-decay_const.insert(0, "Decay?")
+decay_const.insert(0, "Decay: 0.0-1.0?")
+decay_const.bind("<Button-1>", clear_space)
 
 b_gen_al = Button(frame7, text = "Genetic Algorithm")
 b_gen_al.bind("<Button-1>")
 b_gen_al.grid(row = 5, column = 0, sticky = W, padx = 10)
 
-num_iter5 = Entry(frame7, width = 10)
+num_iter5 = Entry(frame7, width = 15)
 num_iter5.grid(row = 5, column = 1)
 num_iter5.insert(0, "# Steps?")
+num_iter5.bind("<Button-1>", clear_space)
 
-ini_pop = Entry(frame7, width = 10)
+ini_pop = Entry(frame7, width = 15)
 ini_pop.grid(row = 5, column = 2)
 ini_pop.insert(0, "# Puzzles?")
-
+ini_pop.bind("<Button-1>", clear_space)
 ## ----- End Frame 7: More Buttons ----- ## 
 
 frame1.grid(row = 0, column = 0)
