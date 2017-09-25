@@ -13,6 +13,8 @@ from part3_basic_hill_climbing_approach import hill_climb
 from part4_Hill_Climbing_with_Random_Restarts import hill_climbing_random_restart
 from part5_Hill_Climbing_with_Random_Walk import hill_climb_random_walk
 from part6_Simulated_Annealing import hill_climb_simulated_annealing
+import time
+from _tracemalloc import start
 ## ----- End Import Statements ----- ##
 
 
@@ -78,13 +80,16 @@ def clear_space(event):
 
 ## ----- Task 2 Call: Evaluate Puzzle ----- ##
 def solve(event):
+    start_time = time.time()
     visited, k = BFS(p_grid, p_size)
+    end_time = time.time()
     
     for x in range(0, p_size):
         for y in range(0, p_size):
             Label(frame5, text = visited[x][y]).grid(row = x, column = y, sticky = W, padx = 8)
     Label(frame5, text = 0).grid(row = 0, column = 0, sticky = W, padx = 8)
     Label(frame6, text = k).grid(row = 1, column = 1, sticky = W, padx = 8)
+    Label(frame6, text = str(end_time - start_time) + " seconds").grid(row = 2, column = 1, sticky = W, padx = 8)
     
     solution = print_path(p_grid, p_size, visited)
     
@@ -96,8 +101,10 @@ def solve(event):
 ## ----- Task 3 Call: Hill Climbing ----- ##
 def hill(event):
     iteration = int(num_iter1.get())
+    start_time = time.time()
     puzzle, visited, k = hill_climb(p_grid, p_size, iteration)
-            
+    end_time = time.time()
+    
     root2 = Tk()
     frameA = Frame(root2) # contains Puzzle Label
     frameB = Frame(root2) # contains New Puzzle
@@ -126,6 +133,8 @@ def hill(event):
     Label(frameE, text = solution).grid(row = 0, column = 1, sticky = W)
     Label(frameE, text = "K Value: ").grid(row = 1, column = 0, sticky = W)
     Label(frameE, text = k).grid(row = 1, column = 1, sticky = W)
+    Label(frameE, text = "Time: ").grid(row = 2, column = 0, sticky = W)
+    Label(frameE, text = str(end_time - start_time) + " seconds").grid(row = 2, column = 1, sticky = W)
     
     frameA.grid(row = 0, column = 0)
     frameB.grid(row = 1, column = 0)
@@ -142,7 +151,9 @@ def hill_rr(event):
     iteration = int(num_iter2.get())
     restarts = int(num_rest.get())
     
+    start_time = time.time()
     puzzle, visited, k = hill_climbing_random_restart(p_grid, p_size, iteration, restarts)
+    end_time = time.time()
     
     root2 = Tk()
     frameA = Frame(root2) # contains Puzzle Label
@@ -171,6 +182,8 @@ def hill_rr(event):
     Label(frameE, text = solution).grid(row = 0, column = 1, sticky = W)
     Label(frameE, text = "K Value: ").grid(row = 1, column = 0, sticky = W)
     Label(frameE, text = k).grid(row = 1, column = 1, sticky = W)
+    Label(frameE, text = "Time: ").grid(row = 2, column = 0, sticky = W)
+    Label(frameE, text = str(end_time - start_time) + " seconds").grid(row = 2, column = 1, sticky = W)
     
     frameA.grid(row = 0, column = 0)
     frameB.grid(row = 1, column = 0)
@@ -186,7 +199,10 @@ def hill_rr(event):
 def hill_rw(event):
     iteration = int(num_iter3.get())
     probability = int(walk_prob.get())
+    
+    start_time = time.time()
     puzzle, visited, k = hill_climb_random_walk(p_grid, p_size, iteration, probability)
+    end_time = time.time()
             
     root2 = Tk()
     frameA = Frame(root2) # contains Puzzle Label
@@ -215,6 +231,8 @@ def hill_rw(event):
     Label(frameE, text = solution).grid(row = 0, column = 1, sticky = W)
     Label(frameE, text = "K Value: ").grid(row = 1, column = 0, sticky = W)
     Label(frameE, text = k).grid(row = 1, column = 1, sticky = W)
+    Label(frameE, text = "Time: ").grid(row = 2, column = 0, sticky = W)
+    Label(frameE, text = str(end_time - start_time) + " seconds").grid(row = 2, column = 1, sticky = W)
     
     frameA.grid(row = 0, column = 0)
     frameB.grid(row = 1, column = 0)
@@ -230,7 +248,10 @@ def sim_ann(event):
     iteration = int(num_iter4.get())
     temperature = int(temper.get())
     decay_rate = float(decay_const.get())
+    
+    start_time = time.time()
     puzzle, visited, k = hill_climb_simulated_annealing(p_grid, p_size, iteration, temperature, decay_rate)
+    end_time = time.time()
             
     root2 = Tk()
     frameA = Frame(root2) # contains Puzzle Label
@@ -259,6 +280,8 @@ def sim_ann(event):
     Label(frameE, text = solution).grid(row = 0, column = 1, sticky = W)
     Label(frameE, text = "K Value: ").grid(row = 1, column = 0, sticky = W)
     Label(frameE, text = k).grid(row = 1, column = 1, sticky = W)
+    Label(frameE, text = "Time: ").grid(row = 2, column = 0, sticky = W)
+    Label(frameE, text = str(end_time - start_time) + " seconds").grid(row = 2, column = 1, sticky = W)
     
     frameA.grid(row = 0, column = 0)
     frameB.grid(row = 1, column = 0)
@@ -348,6 +371,7 @@ for x in range(0, 11):
 ## ----- Frame 6: Show Steps and k value ----- ##
 Label(frame6, text = 'Steps: ').grid(row = 0, column = 0, sticky = W)
 Label(frame6, text = 'K-Value: ').grid(row = 1, column = 0, sticky = W)
+Label(frame6, text = 'Time: ').grid(row = 2, column = 0, sticky = W)
 ## ----- End Frame 6: Show Steps and k value ----- ##
 
 
