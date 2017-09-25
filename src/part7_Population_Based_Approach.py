@@ -145,9 +145,9 @@ def genetic_algorithm(puzzles, number_of_puzzles, size_of_puzzles): # puzzles is
        
     ## ----- Mutation Step ----- ##
     for i in range(0, number_of_puzzles):
-        mutation_x = []
-        mutation_y = []
-        mutation_value = []
+        mutation_x = [0]*size_of_puzzles
+        mutation_y = [0]*size_of_puzzles
+        mutation_value = [0]*size_of_puzzles
         
         for j in range(0, size_of_puzzles):
             ## ----- Choose Random Cell ----- ##
@@ -161,43 +161,51 @@ def genetic_algorithm(puzzles, number_of_puzzles, size_of_puzzles): # puzzles is
                     a = True
                 else:
                     if(j > 0):
-                        for m in range(0, len(mutation_x)):
+                        for m in range(0, j):
                             if(mutation_x[m] == randx and mutation_y[m] == randy):
                                 a = True
                             else:
                                 a = False
                                 mutation_x[j] = randx
                                 mutation_y[j] = randy
+                                break
                     else:
+                        a = False
                         mutation_x[j] = randx
                         mutation_y[j] = randy
-                        a = False
             ## ----- End Choose Random Cell ----- ##
-            
+        print(mutation_x, mutation_y)   
             ## ----- Choose Random Value ----- ##
-            for p in range(0, size_of_puzzles):
-                temp = 0
-                b = True
-                while b:
-                    for k in range(0, int((size_of_puzzles - 1)/2) + 1):
-                        if(mutation_x[p] == k or mutation_x[p] == size_of_puzzles - (k + 1) or mutation_y[p] == k or mutation_y[p] == size_of_puzzles - (k + 1)): 
-                            temp = random.randint(1, size_of_puzzles - (k + 1))
-                            if temp != next_gen[i][randx][randy]['value']:
-                                for q in range(0, len(mutation_x)):
-                                    if(q > 0):
-                                        if(mutation_value[q] == temp):
-                                            b = True
-                                        else:
-                                            next_gen[i][randx][randy]['value'] = temp
-                                            b = False
-                                            mutation_value[j] = temp
-                                            break
+        for p in range(0, size_of_puzzles):
+            temp = 0
+            b = True
+            print("Entering while b")
+            while b:
+                for k in range(0, int((size_of_puzzles - 1)/2) + 1):
+                    if(mutation_x[p] == k or mutation_x[p] == size_of_puzzles - (k + 1) or mutation_y[p] == k or mutation_y[p] == size_of_puzzles - (k + 1)): 
+                        temp = random.randint(1, size_of_puzzles - (k + 1))
+                        if temp != next_gen[i][randx][randy]['value']:
+                            for q in range(0, p):
+                                if(q > 0):
+                                    print("q > 0")
+                                    if(mutation_value[q] == temp):
+                                        print("repeating value at, ", p)
+                                        b = True
                                     else:
-                                        mutation_value[j] = temp
+                                        next_gen[i][mutation_x[p]][mutation_y[p]]['value'] = temp
+                                        print("new value at, ", p)
                                         b = False
+                                        mutation_value[p] = temp
                                         break
+                                else:
+                                    print("q = 0")
+                                    mutation_value[p] = temp
+                                    b = False
+                break
+            print("Exiting while b")
             ## ----- End Choose Random Value ----- ##
     ## ----- End Mutation Step ----- ##
+    print(mutation_x, mutation_y, mutation_value)
     return next_gen
 
 
@@ -235,3 +243,4 @@ for i in range(0, len(puzzles)):
     visited, k = BFS(puzzles[i], size_of_puzzles)
     print_path(puzzles[i], size_of_puzzles, visited)
 ## ----- End Unit Test ----- ##
+print("End part 7")
