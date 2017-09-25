@@ -145,33 +145,58 @@ def genetic_algorithm(puzzles, number_of_puzzles, size_of_puzzles): # puzzles is
        
     ## ----- Mutation Step ----- ##
     for i in range(0, number_of_puzzles):
-        ## ----- Choose Random Cell ----- ##
-        a = True
-        randx = 0
-        randy = 0
-        while a:
-            randx = random.randint(0, size_of_puzzles - 1)
-            randy = random.randint(0, size_of_puzzles - 1)
-            if (randx == size_of_puzzles - 1 and randy == size_of_puzzles - 1):
-                a = True
-            else:
-                a = False
-        ## ----- End Choose Random Cell ----- ##
-            
-        ## ----- Choose Random Value ----- ##
+        mutation_x = []
+        mutation_y = []
+        mutation_value = []
         
-        ## move the while loop?
-        temp = 0
-        b = True
-        while b:
-            for k in range(0, int((size_of_puzzles - 1)/2) + 1):
-                if(randx == k or randx == size_of_puzzles - (k + 1) or randy == k or randy == size_of_puzzles - (k + 1)): 
-                    temp = random.randint(1, size_of_puzzles - (k + 1))
-                    if temp != next_gen[i][randx][randy]['value']:
-                        next_gen[i][randx][randy]['value'] = temp
-                        b = False
-                        break
-        ## ----- End Choose Random Value ----- ##
+        for j in range(0, size_of_puzzles):
+            ## ----- Choose Random Cell ----- ##
+            a = True
+            randx = 0
+            randy = 0
+            while a:
+                randx = random.randint(0, size_of_puzzles - 1)
+                randy = random.randint(0, size_of_puzzles - 1)
+                if (randx == size_of_puzzles - 1 and randy == size_of_puzzles - 1):
+                    a = True
+                else:
+                    if(j > 0):
+                        for m in range(0, len(mutation_x)):
+                            if(mutation_x[m] == randx and mutation_y[m] == randy):
+                                a = True
+                            else:
+                                a = False
+                                mutation_x[j] = randx
+                                mutation_y[j] = randy
+                    else:
+                        mutation_x[j] = randx
+                        mutation_y[j] = randy
+                        a = False
+            ## ----- End Choose Random Cell ----- ##
+            
+            ## ----- Choose Random Value ----- ##
+            for p in range(0, size_of_puzzles):
+                temp = 0
+                b = True
+                while b:
+                    for k in range(0, int((size_of_puzzles - 1)/2) + 1):
+                        if(mutation_x[p] == k or mutation_x[p] == size_of_puzzles - (k + 1) or mutation_y[p] == k or mutation_y[p] == size_of_puzzles - (k + 1)): 
+                            temp = random.randint(1, size_of_puzzles - (k + 1))
+                            if temp != next_gen[i][randx][randy]['value']:
+                                for q in range(0, len(mutation_x)):
+                                    if(q > 0):
+                                        if(mutation_value[q] == temp):
+                                            b = True
+                                        else:
+                                            next_gen[i][randx][randy]['value'] = temp
+                                            b = False
+                                            mutation_value[j] = temp
+                                            break
+                                    else:
+                                        mutation_value[j] = temp
+                                        b = False
+                                        break
+            ## ----- End Choose Random Value ----- ##
     ## ----- End Mutation Step ----- ##
     return next_gen
 
