@@ -84,9 +84,9 @@ number_of_iterations = 2500
 initial_temp = 100
 initial_d = .7
 ## ----- Input Puzzle Size ----- ##
-#n = input('Enter the size of the puzzle grid (5, 7, 9, 11): ')  # need to validate
-#n = int(n)
-n = 11
+n = input('Enter the size of the puzzle grid (5, 7, 9, 11): ')  # need to validate
+n = int(n)
+
 ## ----- End Input Puzzle Size ----- ##
 nodes = generate_puzzle(n)
 print_matrix(nodes, n)

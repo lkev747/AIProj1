@@ -37,12 +37,15 @@ def hill_climbing_random_restart(nodes, n, number_of_iterations, number_of_resta
 
 
 ## ----- Hill Climb w Random Restart ----- ##
-number_of_iterations = 500 # Change to user input, N = 500
+number_of_iterations = 2500 # Change to user input, N = 500
 number_of_restarts = 10 # Change to user input, N = 500
 ## ----- Input Puzzle Size ----- ##
 n = input('Enter the size of the puzzle grid (5, 7, 9, 11): ')  # need to validate
 n = int(n)
+
 ## ----- End Input Puzzle Size ----- ##
+nodes = generate_puzzle(n)
+best_puzzle_yet, best_visited_puzzle_yet, bext_k_value_yet = hill_climbing_random_restart(nodes, n, number_of_iterations, number_of_restarts)
 print()
 print('Highest Value: ')
 print_matrix(best_puzzle_yet, n)
