@@ -82,13 +82,13 @@ def hill_climb_random_walk(nodes, n, iteration, probability):
 
 ## ----- Unit Test ----- ##
 
-number_of_iterations = 2500
+number_of_iterations = 100
 probability_of_accepting_random_walk = 10   # percentage
 
 ## ----- Input Puzzle Size ----- ##
 #n = input('Enter the size of the puzzle grid (5, 7, 9, 11): ')  # need to validate
 #n = int(n)
-n = 7
+n = 11
 ## ----- End Input Puzzle Size ----- ##
 
 nodes = generate_puzzle(n)
