@@ -83,16 +83,18 @@ def hill_climb(nodes, n, iteration):
 ## ----- Input Puzzle Size ----- ##
 n = input('Enter the size of the puzzle grid (5, 7, 9, 11): ')  # need to validate
 n = int(n)
+
 ## ----- End Input Puzzle Size ----- ##
 nodes = generate_puzzle(n)
-print_matrix(nodes,n)
+#print_matrix(nodes,n)
 visited, k = BFS(nodes, n)
-print_path(nodes, n, visited)
+#print_path(nodes, n, visited)
 start_time = time.time()
-new_nodes, new_visited, new_k = hill_climb(nodes, n, 500)
-print("--- %s seconds ---" % (time.time()-start_time)) 
-print_matrix(nodes, n)
-print_path(new_nodes, n, new_visited)
+new_nodes, new_visited, new_k = hill_climb(nodes, n, 2500)
+#print("--- %s seconds ---" % (time.time()-start_time)) 
+#print_matrix(nodes, n)
+#print_path(new_nodes, n, new_visited)
+print(new_visited[n-1][n-1])
 print("End part 3")
 '''
 ## ----- End Unit Test ----- ##

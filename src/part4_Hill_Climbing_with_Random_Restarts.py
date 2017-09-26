@@ -35,7 +35,7 @@ def hill_climbing_random_restart(nodes, n, number_of_iterations, number_of_resta
     return best_puzzle_yet, best_visited_puzzle_yet, best_k_value_yet 
 ## ----- End Hill Climb w Random Restart ----- ##        
 
-'''
+
 ## ----- Hill Climb w Random Restart ----- ##
 number_of_iterations = 500 # Change to user input, N = 500
 number_of_restarts = 10 # Change to user input, N = 500
@@ -48,4 +48,3 @@ print('Highest Value: ')
 print_matrix(best_puzzle_yet, n)
 print_path(best_puzzle_yet, n, best_visited_puzzle_yet)
 print("End part 4")
-'''

@@ -155,11 +155,22 @@ def genetic_algorithm(puzzles, number_of_puzzles, size_of_puzzles): # puzzles is
             temp_matrix[math.floor(j / size_of_puzzles)][j % size_of_puzzles] = crossover_pop[i][j]
         next_gen.append(temp_matrix)
     ## ----- End Reshape Puzzles ----- ##
+    
+    '''
+    print("Entering New Gen")
+    ## ----- New Gen
+    new_gen = [[[0 for i in range (number_of_puzzles)] for x in range (size_of_puzzles)] for y in range (size_of_puzzles)]
+    new_gen[i][x][y] = next_gen[i][x][y]
+    print("new Gen")
+    print(new_gen[i])
+    ## ----- End New Gen
+    '''
+    
     ## --- START
     for i in range(0, number_of_puzzles): 
         for w in range(0, size_of_puzzles):
-            tempnode = 0
-         ## ----- Choose Random Cell ----- ##
+            #tempnode = 0
+        ## ----- Choose Random Cell ----- ##
             a = True
             randx = 0
             randy = 0
@@ -167,7 +178,7 @@ def genetic_algorithm(puzzles, number_of_puzzles, size_of_puzzles): # puzzles is
                 randx = random.randint(0, size_of_puzzles - 1)
                 randy = random.randint(0, size_of_puzzles - 1)
                 if not (randx == size_of_puzzles - 1 and randy == size_of_puzzles - 1):
-                    tempnode = next_gen[i][randx][randy]['value']
+                    #tempnode = next_gen[i][randx][randy]['value']
                     a = False
             ## ----- End Choose Random Cell ----- ##
             
@@ -183,8 +194,9 @@ def genetic_algorithm(puzzles, number_of_puzzles, size_of_puzzles): # puzzles is
                             b = False
                             break
             ## ----- End Choose Random Value ----- ##
-    
-    
+
+
+    return next_gen
     
     
     ## --- END
@@ -246,7 +258,13 @@ def genetic_algorithm(puzzles, number_of_puzzles, size_of_puzzles): # puzzles is
     for i in range(0, number_of_puzzles):
         print_matrix(next_gen[i], size_of_puzzles)
     '''
-    return next_gen 
+    
+    
+    
+    ##return next_gen 
+    
+    
+    
     ## End Mutation Step for each Puzzle ##
     ## End Mutation Step for all Puzzles ##
        
@@ -346,5 +364,6 @@ for i in range(0, len(puzzles)):
     print_matrix(puzzles[i], size_of_puzzles)
     visited, k = BFS(puzzles[i], size_of_puzzles)
     print_path(puzzles[i], size_of_puzzles, visited)
+
 ## ----- End Unit Test ----- ##
 print("End part 7")
