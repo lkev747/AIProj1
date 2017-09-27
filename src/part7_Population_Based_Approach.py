@@ -11,6 +11,7 @@ from part1_puzzle_representation import generate_puzzle
 from part1_puzzle_representation import print_matrix
 from part2_puzzle_evaluation import print_path
 from part2_puzzle_evaluation import BFS
+from lib2to3.fixer_util import Number
 ## ----- End Import Statements ----- ##
 
 def genetic_algorithm(puzzles, number_of_puzzles, size_of_puzzles): # puzzles is a list of square matrix puzzles
@@ -25,14 +26,6 @@ def genetic_algorithm(puzzles, number_of_puzzles, size_of_puzzles): # puzzles is
         population.append(flattened_puzzle)
     ## ----- End Flatten Puzzle ----- ##
   
-
-    ##### Print The Flattenened Matrices
-    print('Flattened Matrices: ')
-    for i in range(0, number_of_puzzles):
-        for j in range(0, len(population[0])):
-            print(population[i][j]['value'], ', ', end = '')
-        print()
-    ##### End Print
 
          
     ## ----- Evaluate Fitness ----- ##
@@ -54,63 +47,34 @@ def genetic_algorithm(puzzles, number_of_puzzles, size_of_puzzles): # puzzles is
     ## ----- End Evaluate Fitness ----- ##
     
     
-    ##### Print the Fitnesses
-    print('K Values: ', end = '')
-    for i in range(0, len(selection)):
-        print(k_values[i], ', ' , end = '')
-    print()
-    for i in range(0, len(selection)):
-        print(survivability[i], ', ' , end = '')
-    print()
-    for i in range(0, len(selection)):
-        print(selection[i], ', ' , end = '')
-    print()
-    ##### End Print
-    
     
     ## ----- Selection Step ----- ##
     selected_pop = [] # Selected Population of flattened puzzles
+
     for j in range(0, number_of_puzzles):
         flag = True     # flag is true means we are picking a differeing string
-        index = 0
+
         while(flag):
+            index = 0
             temp = random.random()
             for i in selection:
                 if temp < i:
-                    print("Temp: ", temp)
-                    selected_pop.append(population[index])
-                    flag = False
+                    if j > 0:
+                        if (selected_pop[-1] == population[index]):
+                            flag = True
+                            break
+                        else:
+                            selected_pop.append(population[index])
+                            flag = False
+                            break
+                    else:
+                        selected_pop.append(population[index])
+                        flag = False                    
                     break
                 index += 1
                 
-            '''
-            if(j > 0):
-                if (selected_pop[-1] == population[index]):
-                    print("I am the same as the previous")
-                    print(population[index])
-                    flag = True
-                else:
-                    selected_pop.append(population[index])
-                    print("I will be appended")
-                    print(population[index])
-                    flag = False 
-            else:
-                selected_pop.append(population[index])
-                print("I am the first")
-                print(population[index])
-                flag = False
-            '''
+
     ## ----- End Selection Step ----- ##
-    
-    
-    ##### Print The Flattenened Matrices
-    print('Selected Matrices: ')
-    for i in range(0, number_of_puzzles):
-        for j in range(0, len(selected_pop[0])):
-            print(selected_pop[i][j]['value'], ', ', end = '')
-        print()
-    ##### End Print
-    input('Press Enter')
 
     
     ## ----- Crossover Step ----- ##
@@ -122,22 +86,11 @@ def genetic_algorithm(puzzles, number_of_puzzles, size_of_puzzles): # puzzles is
         par1 = selected_pop.pop(0)
         par2 = selected_pop.pop(0)
         split_location = random.randint(1, len(population[0]) - 1)
-        print('Crossed Matrices at: ', split_location)
         crossover_pop.append(par1[0:split_location] + par2[split_location:])
         split_location = random.randint(1, len(population[0]) - 1)
-        print('Crossed Matrices at: ', split_location)
         crossover_pop.append(par2[0:split_location] + par1[split_location:])
     ## ----- End Crossover Step ----- ##
 
-
-    ##### Print The Flattenened Matrices
-    print('Mated Matrices: ')
-    for i in range(0, number_of_puzzles):
-        for j in range(0, len(crossover_pop[0])):
-            print(crossover_pop[i][j]['value'], ', ', end = '')
-        print()
-    ##### End Print
-    input('Press Enter')
 
         
     ## ----- Reshape Puzzles ----- ##
@@ -148,52 +101,47 @@ def genetic_algorithm(puzzles, number_of_puzzles, size_of_puzzles): # puzzles is
             temp_matrix[math.floor(j / size_of_puzzles)][j % size_of_puzzles] = crossover_pop[i][j]
         next_gen.append(temp_matrix)
     ## ----- End Reshape Puzzles ----- ##
-    
-    print("Reshaped Matrices")
+
+    print("before mutation")
     for i in range(0, number_of_puzzles):
         print_matrix(next_gen[i], size_of_puzzles)
-    input('Press Enter')
-    
     
     ## ----- Mutation Step ----- ##
     for i in range(0, number_of_puzzles): 
-        for _ in range(0, 1):
-            
-            ## ----- Choose Random Cell ----- ##
-            a = True
-            randx = 0
-            randy = 0
-            while a:
-                randx = random.randint(0, size_of_puzzles - 1)
-                randy = random.randint(0, size_of_puzzles - 1)
-                if not (randx == size_of_puzzles - 1 and randy == size_of_puzzles - 1):
-                    a = False
-            ## ----- End Choose Random Cell ----- ##
-            
-            ## ----- Choose Random Value ----- ##
-            temp = 0
-            b = True
-            while b:
-                for k in range(0, int((size_of_puzzles - 1)/2) + 1):
-                    if(randx == k or randx == size_of_puzzles - (k + 1) or randy == k or randy == size_of_puzzles - (k + 1)): 
-                        temp = random.randint(1, size_of_puzzles - (k + 1))
-                        if temp != next_gen[i][randx][randy]['value']:
-                            next_gen[i][randx][randy]['value'] = temp
-                            b = False
-                            break
-            ## ----- End Choose Random Value ----- ##
+        
+        ## ----- Choose Random Cell ----- ##
+        a = True
+        randx = 0
+        randy = 0
+        while a:
+            randx = random.randint(0, size_of_puzzles - 1)
+            randy = random.randint(0, size_of_puzzles - 1)
+            if not (randx == size_of_puzzles - 1 and randy == size_of_puzzles - 1):
+                a = False
+        ## ----- End Choose Random Cell ----- ##
+        
+        ## ----- Choose Random Value ----- ##
+        temp = 0
+        b = True
+        while b:
+            for k in range(0, int((size_of_puzzles - 1)/2) + 1):
+                if(randx == k or randx == size_of_puzzles - (k + 1) or randy == k or randy == size_of_puzzles - (k + 1)): 
+                    temp = random.randint(1, size_of_puzzles - (k + 1))
+                    if temp != next_gen[i][randx][randy]['value']:
+                        next_gen[i][randx][randy]['value'] = temp
+                        b = False
+                        break
+        ## ----- End Choose Random Value ----- ##
 
-
-    print("Mutated Matrices")
+    print("after mutation")
     for i in range(0, number_of_puzzles):
         print_matrix(next_gen[i], size_of_puzzles)
-    input('Press Enter')
-
+    
 
     return next_gen
     
 
-
+'''
 ## ----- Input Puzzle Size ----- ##
 number_of_puzzles = int(input('Enter the number of puzzles: '))
 iterations = int(input('Enter the number of iterations: '))
@@ -230,3 +178,4 @@ for i in range(0, len(puzzles)):
 
 ## ----- End Unit Test ----- ##
 print("End part 7")
+'''

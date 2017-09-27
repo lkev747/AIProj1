@@ -13,6 +13,7 @@ from part3_basic_hill_climbing_approach import hill_climb
 from part4_Hill_Climbing_with_Random_Restarts import hill_climbing_random_restart
 from part5_Hill_Climbing_with_Random_Walk import hill_climb_random_walk
 from part6_Simulated_Annealing import hill_climb_simulated_annealing
+from part7_Population_Based_Approach import genetic_algorithm
 import time
 from _tracemalloc import start
 ## ----- End Import Statements ----- ##
@@ -290,8 +291,83 @@ def sim_ann(event):
     frameE.grid(row = 2, column = 1)        
     root2.mainloop()
 
-
 ## ----- End Task 6 Call: Simulated Annealing ----- ##
+
+
+## ----- Task 7: Genetic Algorithm ----- ##
+
+def gen_al(event):
+    iteration = int(num_iter5.get())
+    population_size = int(ini_pop.get())
+    puzzle_size = p_size
+    
+    population = []
+    for _ in range(0, population_size):
+        population.append(generate_puzzle(puzzle_size))
+    
+    start_time = time.time()
+    for _ in range(0, iteration):
+        population = genetic_algorithm(population, population_size, puzzle_size)
+    end_time = time.time()
+            
+    visited_population = []
+    path_pop = []
+    k_pop = []
+    for i in range(0, population_size):
+        visited, k = BFS(population[i], puzzle_size)
+        visited_population.append(visited)
+        k_pop.append(k)
+        path = print_path(population[i], puzzle_size, visited)
+        path_pop.append(path)
+    
+    root2 = Tk()
+    frameA = Frame(root2) # contains Puzzle Label
+    frameB = Frame(root2) # contains New Puzzle
+    frameC = Frame(root2) # contains Visit Matrix Label
+    frameD = Frame(root2) # contains Visit Matrix
+    frameE = Frame(root2) # contains Steps and K Value
+
+    Label(frameA, text = "New Puzzles").grid(row = 0, column = 0)
+    Label(frameC, text = "Visited Matrices").grid(row = 0, column = 0)
+    
+    for i in range(0, population_size):
+        for x in range(0, p_size):
+            for y in range(0, p_size):
+                Label(frameB, text = population[i][x][y]['value']).grid(row = i * p_size + i + x,
+                                                                        column = y,
+                                                                        sticky = W,
+                                                                        padx = 5)
+                Label(frameD, text = visited_population[i][x][y]).grid(row = i * p_size + i + x,
+                                                                       column = y,
+                                                                       sticky = W,
+                                                                       padx = 5)
+            
+        Label(frameB, text = " ").grid(row = p_size * (i+1) + i)
+        Label(frameD, text = " ").grid(row = p_size * (i+1) + i)
+        Label(frameD, text = 0).grid(row = p_size * i + i,
+                                     column = 0, sticky = W, padx = 5)
+
+
+    #solution = print_path(puzzle, p_size, visited)
+    
+    Label(frameE, text = "Path: ").grid(row = 0, column = 0, sticky = W)
+    #Label(frameE, text = solution).grid(row = 0, column = 1, sticky = W)
+    Label(frameE, text = "K Value: ").grid(row = 1, column = 0, sticky = W)
+    #Label(frameE, text = k).grid(row = 1, column = 1, sticky = W)
+    Label(frameE, text = "Time: ").grid(row = 2, column = 0, sticky = W)
+    Label(frameE, text = str(end_time - start_time) + " seconds").grid(row = 2, column = 1, sticky = W)
+    
+    frameA.grid(row = 0, column = 0)
+    frameB.grid(row = 1, column = 0)
+    frameC.grid(row = 0, column = 1)
+    frameD.grid(row = 1, column = 1)
+    frameE.grid(row = 2, column = 1)        
+    root2.mainloop()
+    
+    pass
+
+## ----- End Task 7: Genetic Algorithm ----- ##
+
 
 
 ## ----- Simple Gui ----- ##
@@ -437,7 +513,7 @@ decay_const.insert(0, "Decay: 0.0-1.0?")
 decay_const.bind("<Button-1>", clear_space)
 
 b_gen_al = Button(frame7, text = "Genetic Algorithm")
-b_gen_al.bind("<Button-1>")
+b_gen_al.bind("<Button-1>", gen_al)
 b_gen_al.grid(row = 5, column = 0, sticky = W, padx = 10)
 
 num_iter5 = Entry(frame7, width = 15)

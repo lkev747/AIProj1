@@ -81,7 +81,7 @@ def hill_climb_random_walk(nodes, n, iteration, probability):
 
 
 ## ----- Unit Test ----- ##
-
+'''
 number_of_iterations = 100
 probability_of_accepting_random_walk = 10   # percentage
 
@@ -100,7 +100,7 @@ print("--- %s seconds ---" % (time.time()-start_time))
 print_matrix(nodes, n)
 print_path(nodes, n, newvisited)
 print("End part 5")
-
+'''
 ## ----- End Unit Test ----- ##
 
 
