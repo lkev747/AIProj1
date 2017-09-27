@@ -46,8 +46,8 @@ def genetic_algorithm(puzzles, number_of_puzzles, size_of_puzzles): # puzzles is
         selection.append(sum(survivability))
     ## ----- End Evaluate Fitness ----- ##
     
-    
-    
+    '''
+    ## Restrict 2 consecutive
     ## ----- Selection Step ----- ##
     selected_pop = [] # Selected Population of flattened puzzles
 
@@ -55,6 +55,7 @@ def genetic_algorithm(puzzles, number_of_puzzles, size_of_puzzles): # puzzles is
         flag = True     # flag is true means we are picking a differeing string
 
         while(flag):
+            print("flag")
             index = 0
             temp = random.random()
             for i in selection:
@@ -72,10 +73,26 @@ def genetic_algorithm(puzzles, number_of_puzzles, size_of_puzzles): # puzzles is
                         flag = False                    
                     break
                 index += 1
-                
-
     ## ----- End Selection Step ----- ##
+    '''
+    ## Dont Restrict 2 consecutive
+    ## ----- Selection Step ----- ##
+    selected_pop = [] # Selected Population of flattened puzzles
 
+    for j in range(0, number_of_puzzles):
+        flag = True     # flag is true means we are picking a differeing string
+
+        while(flag):
+            print("flag")
+            index = 0
+            temp = random.random()
+            for i in selection:
+                if temp < i:
+                    selected_pop.append(population[index])
+                    flag = False
+                    break
+                index += 1
+    ## ----- End Selection Step ----- ##
     
     ## ----- Crossover Step ----- ##
     if len(selected_pop) % 2 > 0: # in case of odd number of puzzles
@@ -83,6 +100,7 @@ def genetic_algorithm(puzzles, number_of_puzzles, size_of_puzzles): # puzzles is
         print()
     crossover_pop = [] # List of child arrays post-mating
     while selected_pop:
+        print("selected_pop")
         par1 = selected_pop.pop(0)
         par2 = selected_pop.pop(0)
         split_location = random.randint(1, len(population[0]) - 1)
@@ -114,6 +132,7 @@ def genetic_algorithm(puzzles, number_of_puzzles, size_of_puzzles): # puzzles is
         randx = 0
         randy = 0
         while a:
+            print("a")
             randx = random.randint(0, size_of_puzzles - 1)
             randy = random.randint(0, size_of_puzzles - 1)
             if not (randx == size_of_puzzles - 1 and randy == size_of_puzzles - 1):
@@ -124,6 +143,7 @@ def genetic_algorithm(puzzles, number_of_puzzles, size_of_puzzles): # puzzles is
         temp = 0
         b = True
         while b:
+            print("b")
             for k in range(0, int((size_of_puzzles - 1)/2) + 1):
                 if(randx == k or randx == size_of_puzzles - (k + 1) or randy == k or randy == size_of_puzzles - (k + 1)): 
                     temp = random.randint(1, size_of_puzzles - (k + 1))
@@ -141,14 +161,13 @@ def genetic_algorithm(puzzles, number_of_puzzles, size_of_puzzles): # puzzles is
     return next_gen
     
 
-'''
+
 ## ----- Input Puzzle Size ----- ##
 number_of_puzzles = int(input('Enter the number of puzzles: '))
 iterations = int(input('Enter the number of iterations: '))
 n = input('Enter the size of the puzzle grid (5, 7, 9, 11): ')  # need to validate
 size_of_puzzles = int(n)
 ## ----- End Input Puzzle Size ----- ##
-
 
 ## ----- Generate Set of Puzzles ----- ##
 puzzles = []
@@ -178,4 +197,3 @@ for i in range(0, len(puzzles)):
 
 ## ----- End Unit Test ----- ##
 print("End part 7")
-'''
