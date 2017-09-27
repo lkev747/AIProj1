@@ -305,6 +305,8 @@ def gen_al(event):
     for _ in range(0, population_size):
         population.append(generate_puzzle(puzzle_size))
     
+    start_pop = population[:]
+    
     start_time = time.time()
     for _ in range(0, iteration):
         population = genetic_algorithm(population, population_size, puzzle_size)
@@ -326,9 +328,13 @@ def gen_al(event):
     frameC = Frame(root2) # contains Visit Matrix Label
     frameD = Frame(root2) # contains Visit Matrix
     frameE = Frame(root2) # contains Steps and K Value
+    frameF = Frame(root2) # stores paths
+    frameG = Frame(root2) # stores old puzzles
+    frameH = Frame(root2)
 
-    Label(frameA, text = "New Puzzles").grid(row = 0, column = 0)
-    Label(frameC, text = "Visited Matrices").grid(row = 0, column = 0)
+    Label(frameH, text = "Starting Population").grid(row = 0, column = 0, padx = 40)
+    Label(frameA, text = "New Puzzles").grid(row = 0, column = 1)
+    Label(frameC, text = "Visited Matrices").grid(row = 0, column = 2)
     
     for i in range(0, population_size):
         for x in range(0, p_size):
@@ -341,27 +347,40 @@ def gen_al(event):
                                                                        column = y,
                                                                        sticky = W,
                                                                        padx = 5)
-            
+                Label(frameF, text = ' ').grid(row = i*p_size + i + x,
+                                               column = y,
+                                               sticky = W,
+                                               padx = 5)
+                
+                Label(frameG, text = start_pop[i][x][y]['value']).grid(row = i * p_size + i + x,
+                                                                        column = y,
+                                                                        sticky = W,
+                                                                        padx = 5)                
+        Label(frameG, text = " ").grid(row = p_size * (i+1) + i)
         Label(frameB, text = " ").grid(row = p_size * (i+1) + i)
         Label(frameD, text = " ").grid(row = p_size * (i+1) + i)
-        Label(frameD, text = 0).grid(row = p_size * i + i,
-                                     column = 0, sticky = W, padx = 5)
+        Label(frameD, text = 0).grid(row = p_size * i + i, column = 0, sticky = W, padx = 5)
+        
+        Label(frameF, text = " ").grid(row = p_size * (i+1) + i)
+        Label(frameF, text = "Path: ").grid(row = p_size * i + i, column = 0, sticky = W)
+        Label(frameF, text = path_pop[i]).grid(row = p_size * i + i, column = 1, sticky = W)
+        Label(frameF, text = "K-Value").grid(row = p_size * i + i + 1, column = 0, sticky = W)
+        Label(frameF, text = k_pop[i]).grid(row = p_size * i + i + 1, column = 1, sticky = W)
 
 
-    #solution = print_path(puzzle, p_size, visited)
-    
-    Label(frameE, text = "Path: ").grid(row = 0, column = 0, sticky = W)
-    #Label(frameE, text = solution).grid(row = 0, column = 1, sticky = W)
-    Label(frameE, text = "K Value: ").grid(row = 1, column = 0, sticky = W)
-    #Label(frameE, text = k).grid(row = 1, column = 1, sticky = W)
+
+
     Label(frameE, text = "Time: ").grid(row = 2, column = 0, sticky = W)
     Label(frameE, text = str(end_time - start_time) + " seconds").grid(row = 2, column = 1, sticky = W)
     
-    frameA.grid(row = 0, column = 0)
-    frameB.grid(row = 1, column = 0)
-    frameC.grid(row = 0, column = 1)
-    frameD.grid(row = 1, column = 1)
-    frameE.grid(row = 2, column = 1)        
+    frameA.grid(row = 0, column = 1, padx = 20)
+    frameB.grid(row = 1, column = 1, padx = 20)
+    frameC.grid(row = 0, column = 2, padx = 20)
+    frameD.grid(row = 1, column = 2, padx = 20)
+    frameE.grid(row = 2, column = 2, padx = 20)
+    frameF.grid(row = 1, column = 3, padx = 20)
+    frameG.grid(row = 1, column = 0, padx = 20)
+    frameH.grid(row = 0, column = 0, padx = 20)       
     root2.mainloop()
     
     pass
